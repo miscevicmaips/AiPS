@@ -3,6 +3,7 @@
 
 namespace WebUI.App_Start
 {
+    // test comments
     using System;
     using System.Web;
 
