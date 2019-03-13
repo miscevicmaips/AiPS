@@ -1,4 +1,5 @@
 ﻿using DAL.Concrete;
+using Domain.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -10,13 +11,13 @@ using System.Web;
 
 namespace WebUI.Infrastructure
 {
-    public class AppRoleManager : RoleManager<IdentityRole>, IDisposable
+    public class AppRoleManager : RoleManager<AppRole>, IDisposable
     {
-        public AppRoleManager(RoleStore<IdentityRole> store) : base(store) { }
+        public AppRoleManager(RoleStore<AppRole> store) : base(store) { }
 
         public static AppRoleManager Create(IdentityFactoryOptions<AppRoleManager> options, IOwinContext context)
         {
-            return new AppRoleManager(new RoleStore<IdentityRole>(context.Get<HomeDrawDbContext>()));
+            return new AppRoleManager(new RoleStore<AppRole>(context.Get<HomeDrawDbContext>()));
         }
     }
 }
