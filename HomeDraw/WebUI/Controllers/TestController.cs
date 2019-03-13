@@ -16,7 +16,7 @@ namespace WebUI.Controllers
         public ActionResult Index()
         {
             HomeDrawDbContext context = HomeDrawDbContext.Create();
-            List<TestEntity> testEntities = context.TestEntities.Count();
+            int numOfTestEntities = context.TestEntities.Count();
 
             return View();
         }
