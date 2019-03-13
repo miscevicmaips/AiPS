@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using Domain.Entities;
 
 namespace DAL.Concrete
 {
@@ -13,12 +14,16 @@ namespace DAL.Concrete
     {
         public HomeDrawDbContext() : base("HomeDrawDatabase") { }
 
+        public DbSet<Drawing> Drawings { get; set; }
+        public DbSet<DrawingObject> DrawingObjects { get; set; }
+        public DbSet<TestEntity> TestEntities { get; set; }
+
         public static HomeDrawDbContext Create()
         {
             return new HomeDrawDbContext();
         }
 
-        public class HomeDrawDbInit : DropCreateDatabaseIfModelChanges<HomeDrawDbContext>
+        public class HomeDrawDbInit : DropCreateDatabaseAlways<HomeDrawDbContext>
         {
             protected override void Seed(HomeDrawDbContext context)
             {
@@ -36,6 +41,11 @@ namespace DAL.Concrete
 
                 user.Roles.Add(role);
                 context.Users.Add(user);
+
+                TestEntity testEntity = new TestEntity();
+                testEntity.Name = "Some Test Entity";
+
+                context.TestEntities.Add(testEntity);
 
                 base.Seed(context);
             }
