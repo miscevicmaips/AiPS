@@ -25,6 +25,8 @@ namespace WebUI.App_Start
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/LogIn"),
             });
+
+            app.MapSignalR();
         }
     }
 }
