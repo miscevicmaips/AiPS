@@ -40,6 +40,12 @@ namespace WebUI.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult LogIn()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> LogIn(LogInViewModel vm)
         {
@@ -61,17 +67,17 @@ namespace WebUI.Controllers
                     AuthManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
 
 
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("UserProfile", "Home");
                 }
             }
 
-            return View("~/Views/Admin/LogIn.cshtml", vm);
+            return View("~/Views/Account/Login.cshtml", vm);
         }
 
         public ActionResult LogOut()
         {
             AuthManager.SignOut();
-            return RedirectToAction("LogIn", "Admin");
+            return RedirectToAction("LogIn", "Account");
         }
     }
 }

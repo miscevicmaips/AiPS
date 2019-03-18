@@ -23,7 +23,7 @@ namespace DAL.Concrete
             return new HomeDrawDbContext();
         }
 
-        public class HomeDrawDbInit : DropCreateDatabaseAlways<HomeDrawDbContext>
+        public class HomeDrawDbInit : DropCreateDatabaseIfModelChanges<HomeDrawDbContext>
         {
             protected override void Seed(HomeDrawDbContext context)
             {
@@ -32,15 +32,9 @@ namespace DAL.Concrete
                 user.PasswordHash = passwordHasher.HashPassword("Admin");
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                var roleToChoose = new IdentityRole("AdministratorAIPS");
-                context.Roles.Add(roleToChoose);
-
-                var role = new IdentityUserRole();
-                role.RoleId = roleToChoose.Id;
-                role.UserId = user.Id;
-
-                user.Roles.Add(role);
                 context.Users.Add(user);
+
+
 
                 TestEntity testEntity = new TestEntity();
                 testEntity.Name = "Some Test Entity";
