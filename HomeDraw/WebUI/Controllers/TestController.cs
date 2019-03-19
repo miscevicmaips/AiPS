@@ -17,6 +17,7 @@ namespace WebUI.Controllers
         {
             HomeDrawDbContext context = HomeDrawDbContext.Create();
             int numOfTestEntities = context.TestEntities.Count();
+            ViewBag.Message = numOfTestEntities;
 
             return View();
         }

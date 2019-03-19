@@ -9,6 +9,11 @@ namespace Domain.Entities
 {
     public class AppUser : IdentityUser
     {
+        public AppUser() : base() { }
+
+        public AppUser(string username) : base(username) { }
+
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

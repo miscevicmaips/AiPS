@@ -10,7 +10,7 @@ using Domain.Entities;
 
 namespace DAL.Concrete
 {
-    public class HomeDrawDbContext : IdentityDbContext<IdentityUser>
+    public class HomeDrawDbContext : IdentityDbContext<AppUser>
     {
         public HomeDrawDbContext() : base("HomeDrawDatabase") { }
 
@@ -28,8 +28,8 @@ namespace DAL.Concrete
             protected override void Seed(HomeDrawDbContext context)
             {
                 var passwordHasher = new PasswordHasher();
-                var user = new IdentityUser("AdminAIPS");
-                user.PasswordHash = passwordHasher.HashPassword("Admin");
+                var user = new AppUser("Administrator");
+                user.PasswordHash = passwordHasher.HashPassword("Administrator!");
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
                 context.Users.Add(user);

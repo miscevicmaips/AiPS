@@ -77,7 +77,7 @@ namespace WebUI.Controllers
         public ActionResult LogOut()
         {
             AuthManager.SignOut();
-            return RedirectToAction("LogIn", "Account");
+            return View("~/Views/Account/Login.cshtml");
         }
     }
 }
