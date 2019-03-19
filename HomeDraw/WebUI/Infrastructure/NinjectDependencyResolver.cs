@@ -5,6 +5,8 @@ using System.Web;
 using Ninject;
 using System.Web.Mvc;
 using System.Configuration;
+using DAL.Abstract;
+using DAL.Concrete;
 
 namespace WebUI.Infrastructure
 {
@@ -30,6 +32,8 @@ namespace WebUI.Infrastructure
 
         private void AddBindings()
         {
+            kernel.Bind<IDrawingRepository>().To<DrawingRepository>();
+            kernel.Bind<IDrawingObjectRepository>().To<DrawingObjectRepository>();
         }
 
     }

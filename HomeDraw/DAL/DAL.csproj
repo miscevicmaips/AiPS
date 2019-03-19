@@ -74,6 +74,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IDrawingObjectRepository.cs" />
+    <Compile Include="Abstract\IDrawingRepository.cs" />
+    <Compile Include="Concrete\DrawingObjectRepository.cs" />
+    <Compile Include="Concrete\DrawingRepository.cs" />
     <Compile Include="Concrete\HomeDrawDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -87,8 +91,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
