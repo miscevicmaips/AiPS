@@ -10,7 +10,7 @@ namespace WebUI.Controllers
     public class HomeController : Controller
     {
         // GET: Home
-        public ActionResult UserProfile()
+        public ActionResult Dashboard()
         {
             return View();
         }

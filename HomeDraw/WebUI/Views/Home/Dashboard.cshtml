@@ -1,0 +1,69 @@
+﻿@model WebUI.Models.DashboardViewModel
+
+@{
+    ViewBag.Title = "Home - Dashboard";
+    Layout = "~/Views/Shared/_DefaultUserLayout.cshtml";
+}
+
+<div class="container-fluid h-100 p-0 m-0">
+    <div class="row  h-100 p-0 m-0 align-items-center justify-content-center">
+        <div class="col-md-4 p-0 m-0 justify-content-center text-center">
+            <h1>Welcome!</h1>
+            <p>Use "Create New / Join Existing" button to create a new drawing or join an existing one to work with other users.</p>
+            <div>
+                <button class="btn btn-info" data-toggle="collapse" data-target="#createNewDrawing" aria-expanded="false" aria-controls="createNewDrawing">Create New</button>
+                <button class="btn btn-info" data-toggle="collapse" data-target="#joinExistingDrawing" aria-expanded="false" aria-controls="joinExistingDrawing">Join Existing</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom" id="dropdownGroup">
+        <div class="collapse" id="createNewDrawing" data-parent="#dropdownGroup">
+            <a href="#" class="badge badge-info m-2 p-1">Create New</a>
+            <div class="card card-body">
+                @using (Html.BeginForm("CreateDrawing", "Drawing", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-row align-items-center">
+                        <div class="col-5">
+                            @Html.TextBoxFor(m => m.CreateDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name" })
+                        </div>
+
+                        <div class="col-5">
+                            @Html.PasswordFor(m => m.CreateDrawingPassword, new { @class = "form-control", @placeholder = "Enter password" })
+                        </div>
+
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-block btn-primary">Create</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="collapse" id="joinExistingDrawing" data-parent="#dropdownGroup">
+            <a href="#" class="badge badge-info m-2 p-1">Join Existing</a>
+            <div class="card card-body">
+                @using (Html.BeginForm("JoinDrawing", "Drawing", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-row align-items-center">
+                        <div class="col-5">
+                            @Html.TextBoxFor(m => m.JoinDrawingID, new { @class = "form-control", @placeholder = "Enter drawing ID" })
+                        </div>
+
+                        <div class="col-5">
+                            @Html.PasswordFor(m => m.JoinDrawingPassword, new { @class = "form-control", @placeholder = "Enter password" })
+                        </div>
+
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-block btn-primary">Join</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+

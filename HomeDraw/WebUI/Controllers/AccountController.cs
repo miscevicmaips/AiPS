@@ -67,7 +67,7 @@ namespace WebUI.Controllers
                     AuthManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
 
 
-                    return RedirectToAction("UserProfile", "Home");
+                    return RedirectToAction("Dashboard", "Home");
                 }
             }
 
