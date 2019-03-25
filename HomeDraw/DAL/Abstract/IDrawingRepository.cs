@@ -9,5 +9,8 @@ namespace DAL.Abstract
 {
     public interface IDrawingRepository
     {
+        void CreateDrawing(Drawing drawing);
+        Drawing ReadDrawing(int drawingId);
+        IEnumerable<Drawing> GetMyDrawings(string myId);
     }
 }

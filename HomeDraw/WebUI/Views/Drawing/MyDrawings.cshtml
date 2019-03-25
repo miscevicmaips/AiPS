@@ -1,0 +1,17 @@
+﻿@model WebUI.Models.MyDrawingsViewModel
+
+@{
+    ViewBag.Title = "Home Draw - My Drawings";
+    Layout = "~/Views/Shared/_DefaultUserLayout.cshtml";
+}
+
+<div class="mt-5">
+    @foreach (var drawing in Model.MyDrawings)
+    {
+        if (drawing != null)
+        {
+            <h1>@drawing.DrawingName</h1>
+        }
+    }
+</div>
+

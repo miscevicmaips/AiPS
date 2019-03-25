@@ -18,10 +18,12 @@ namespace Domain.Entities
         public int DrawingID { get; set; }
         public string DrawingName { get; set; }
 
-        public int CreatorID { get; set; }
-        public AppUser Creator { get; set; }
+        public string DrawingPassword { get; set; }
+
+        public string CreatorID { get; set; }
 
         public ICollection<IdentityUser> ParticipatingUsers { get; set; }
+
         public ICollection<DrawingObject> DrawingObjects { get; set; }
     }
 }

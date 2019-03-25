@@ -25,11 +25,11 @@
                 {
                     <div class="form-row align-items-center">
                         <div class="col-5">
-                            @Html.TextBoxFor(m => m.CreateDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name" })
+                            @Html.TextBoxFor(m => m.CreateDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
                         </div>
 
                         <div class="col-5">
-                            @Html.PasswordFor(m => m.CreateDrawingPassword, new { @class = "form-control", @placeholder = "Enter password" })
+                            @Html.PasswordFor(m => m.CreateDrawingPassword, new { @class = "form-control", @placeholder = "Enter password", autocomplete = "off" })
                         </div>
 
                         <div class="col-2">
@@ -47,11 +47,11 @@
                 {
                     <div class="form-row align-items-center">
                         <div class="col-5">
-                            @Html.TextBoxFor(m => m.JoinDrawingID, new { @class = "form-control", @placeholder = "Enter drawing ID" })
+                            @Html.TextBoxFor(m => m.JoinDrawingID, new { @class = "form-control", @placeholder = "Enter drawing ID", autocomplete = "off" })
                         </div>
 
                         <div class="col-5">
-                            @Html.PasswordFor(m => m.JoinDrawingPassword, new { @class = "form-control", @placeholder = "Enter password" })
+                            @Html.PasswordFor(m => m.JoinDrawingPassword, new { @class = "form-control", @placeholder = "Enter password", autocomplete = "off" })
                         </div>
 
                         <div class="col-2">
