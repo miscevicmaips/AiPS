@@ -5,13 +5,24 @@
     Layout = "~/Views/Shared/_DefaultUserLayout.cshtml";
 }
 
-<div class="mt-5">
-    @foreach (var drawing in Model.MyDrawings)
-    {
-        if (drawing != null)
+<div class="container-fluid h-100 p-0 m-0">
+    <div class="row p-5 m-0">
+        @foreach (var drawing in Model.MyDrawings)
         {
-            <h1>@drawing.DrawingName</h1>
+            if (drawing != null)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@drawing.DrawingName</h5>
+                            @Html.ActionLink("Open", "OpenMyDrawing", "Drawing", null, new { @class = "btn btn-block btn-outline-info" })
+                            @Html.ActionLink("Delete", "DeleteMyDrawing", "Drawing", null, new { @class = "btn btn-block btn-outline-danger" })
+                        </div>
+                    </div>
+                </div>
+            }
         }
-    }
+    </div>
 </div>
+
 

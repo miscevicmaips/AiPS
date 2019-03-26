@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Domain.Enums;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,17 @@ namespace Domain.Entities
         public Drawing()
         {
             this.ParticipatingUsers = new HashSet<IdentityUser>();
+
             this.DrawingObjects = new HashSet<DrawingObject>();
         }
 
         public int DrawingID { get; set; }
+
         public string DrawingName { get; set; }
 
         public string DrawingPassword { get; set; }
+
+        public DrawingTypeEnum DrawingType { get; set; }
 
         public string CreatorID { get; set; }
 

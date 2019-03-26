@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
-    <nav class="fixed-top navbar navbar-expand-lg navbar-light bg-light">
+    <nav class=" navbar navbar-expand-lg navbar-light bg-light">
         @Html.ActionLink("Home Draw", "Dashboard", "Home", null, new { @class = "navbar-brand" })
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,11 +22,9 @@
                         Drawings
                     </a>
                     <div class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                        @Html.ActionLink("Saved Drawings", "MyDrawings", "Drawing", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("My Drawings", "MyDrawings", "Drawing", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
-                        @Html.ActionLink("Joined Drawings", "JoinedDrawings", "Drawing", null, new { @class = "dropdown-item" })
-                        <div class="dropdown-divider"></div>
-                        @Html.ActionLink("Public Drawings", "PublicDrawings", "Drawings", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Public Drawings", "PublicDrawings", "Drawing", null, new { @class = "dropdown-item" })
                     </div>
                 </li>
                 <li class="nav-item">

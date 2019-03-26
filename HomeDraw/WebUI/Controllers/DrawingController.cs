@@ -30,8 +30,10 @@ namespace WebUI.Controllers
             drawingRepository = repo;
         }
 
-        public ActionResult DrawingBoard()
+        public ActionResult PublicDrawings()
         {
+            PublicDrawingsViewModel vm = new PublicDrawingsViewModel();
+
             return View();
         }
 
@@ -58,11 +60,10 @@ namespace WebUI.Controllers
 
                 drawingRepository.CreateDrawing(drawing);
 
-                return RedirectToAction("DrawingBoard", drawing);
+                return RedirectToAction("PublicDrawings");
             }
 
             return RedirectToAction("Index", "Test");
-
         }
     }
 }

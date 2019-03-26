@@ -80,6 +80,7 @@
     <Compile Include="Entities\DrawingObject.cs" />
     <Compile Include="Entities\TestEntity.cs" />
     <Compile Include="Enums\DrawingObjectTypeEnum.cs" />
+    <Compile Include="Enums\DrawingTypeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
