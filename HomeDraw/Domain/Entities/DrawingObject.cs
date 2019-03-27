@@ -13,6 +13,7 @@ namespace Domain.Entities
         public int DrawingObjectID { get; set; }
 
         public double PositionTop { get; set; }
+
         public double PositionLeft { get; set; }
 
         public DrawingObjectTypeEnum DrawingObjectType { get;set; }

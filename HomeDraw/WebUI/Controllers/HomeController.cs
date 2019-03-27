@@ -9,8 +9,22 @@ namespace WebUI.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        // GET: Home
         public ActionResult Dashboard()
+        {
+            return View();
+        }
+        
+        public ActionResult PublicRooms()
+        {
+            return View();
+        }
+
+        public ActionResult SavedDrawings()
+        {
+            return View();
+        }
+
+        public ActionResult Settings()
         {
             return View();
         }

@@ -9,6 +9,5 @@ namespace DAL.Concrete
 {
     public class DrawingObjectRepository : IDrawingObjectRepository
     {
-        private HomeDrawDbContext context = new HomeDrawDbContext();
     }
 }

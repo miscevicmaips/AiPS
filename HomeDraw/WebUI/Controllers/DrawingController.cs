@@ -15,55 +15,6 @@ namespace WebUI.Controllers
     [Authorize]
     public class DrawingController : Controller
     {
-        private IDrawingRepository drawingRepository;
-
-        private AppUserManager UserManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
-            }
-        }
-
-        public DrawingController(IDrawingRepository repo)
-        {
-            drawingRepository = repo;
-        }
-
-        public ActionResult PublicDrawings()
-        {
-            PublicDrawingsViewModel vm = new PublicDrawingsViewModel();
-
-            return View();
-        }
-
-        public ActionResult MyDrawings()
-        {
-            MyDrawingsViewModel vm = new MyDrawingsViewModel();
-
-            vm.MyDrawings = drawingRepository.GetMyDrawings(User.Identity.GetUserId());
-
-            return View(vm);
-        }
-
-        public ActionResult CreateDrawing(DashboardViewModel vm)
-        {
-            if(ModelState.IsValid)
-            {
-                string currentUserId = User.Identity.GetUserId();
-
-                Drawing drawing = new Drawing();
-
-                drawing.DrawingName = vm.CreateDrawingName;
-                drawing.DrawingPassword = vm.CreateDrawingPassword;
-                drawing.CreatorID = currentUserId;
-
-                drawingRepository.CreateDrawing(drawing);
-
-                return RedirectToAction("PublicDrawings");
-            }
-
-            return RedirectToAction("Index", "Test");
-        }
+        
     }
 }
