@@ -7,3 +7,20 @@
 
 <h2 class="mt-5">PublicRooms</h2>
 
+@foreach(var room in Model.PublicRoomsList)
+{
+    if(room != null)
+    {
+<div class="card ml-5 mr-5 mb-4 p-2 text-center bg-dark">
+    <h5 class="text-light">@room.Name</h5>
+    @Html.ActionLink("Enter", "OpenRoom", "Room", new { room.RoomID, Model.RoomPassword }, new { @class = "btn btn-block btn-info mb-2" })
+
+    @using (Html.BeginForm("DeleteRoom", "Room"))
+    {
+        @Html.Hidden("RoomId", room.RoomID)
+        <input type="submit" value="Delete" class="btn btn-block btn-danger" />
+    }
+</div>
+    }
+}
+

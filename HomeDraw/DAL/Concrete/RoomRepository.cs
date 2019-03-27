@@ -12,22 +12,38 @@ namespace DAL.Concrete
     {
         public void Create(Room room)
         {
-            throw new NotImplementedException();
+            using (var context = new HomeDrawDbContext())
+            {
+                context.Rooms.Add(room);
+                context.SaveChanges();
+            }
         }
 
         public void Delete(int roomId)
         {
-            throw new NotImplementedException();
+            using (var context = new HomeDrawDbContext())
+            {
+                Room roomToDelete = new Room();
+                roomToDelete = context.Rooms.Find(roomId);
+                context.Rooms.Remove(roomToDelete);
+                context.SaveChanges();
+            }
         }
 
         public Room GetRoomById(int roomId)
         {
-            throw new NotImplementedException();
+            using (var context = new HomeDrawDbContext())
+            {
+                return context.Rooms.Find(roomId);
+            }
         }
 
         public IEnumerable<Room> GetAllRooms()
         {
-            throw new NotImplementedException();
+            using (var context = new HomeDrawDbContext())
+            {
+                return context.Rooms.ToList();
+            }
         }
     }
 }

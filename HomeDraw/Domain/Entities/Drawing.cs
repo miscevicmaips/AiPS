@@ -19,6 +19,8 @@ namespace Domain.Entities
 
         public string DrawingName { get; set; }
 
+        public DrawingTypeEnum DrawingOwner { get; set; }
+
         public ICollection<DrawingObject> DrawingObjects { get; set; }
     }
 }

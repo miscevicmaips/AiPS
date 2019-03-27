@@ -14,6 +14,7 @@ namespace DAL.Concrete
     {
         public HomeDrawDbContext() : base("HomeDrawDatabase") { }
 
+        public DbSet<Room> Rooms { get; set; }
         public DbSet<Drawing> Drawings { get; set; }
         public DbSet<DrawingObject> DrawingObjects { get; set; }
         public DbSet<TestEntity> TestEntities { get; set; }

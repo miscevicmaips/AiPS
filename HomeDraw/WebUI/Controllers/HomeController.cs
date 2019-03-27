@@ -1,14 +1,23 @@
-﻿using System;
+﻿using DAL.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebUI.Models;
 
 namespace WebUI.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        private IRoomRepository roomRepository;
+
+        public HomeController(IRoomRepository roomRepo)
+        {
+            roomRepository = roomRepo;
+        }
+
         public ActionResult Dashboard()
         {
             return View();
@@ -16,7 +25,11 @@ namespace WebUI.Controllers
         
         public ActionResult PublicRooms()
         {
-            return View();
+            PublicRoomsViewModel vm = new PublicRoomsViewModel();
+
+            vm.PublicRoomsList = roomRepository.GetAllRooms();
+
+            return View(vm);
         }
 
         public ActionResult SavedDrawings()
