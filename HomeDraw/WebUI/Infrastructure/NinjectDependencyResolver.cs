@@ -34,6 +34,7 @@ namespace WebUI.Infrastructure
         {
             kernel.Bind<IDrawingRepository>().To<DrawingRepository>();
             kernel.Bind<IDrawingObjectRepository>().To<DrawingObjectRepository>();
+            kernel.Bind<IRoomRepository>().To<RoomRepository>();
         }
 
     }

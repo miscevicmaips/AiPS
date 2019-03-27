@@ -76,9 +76,11 @@
   <ItemGroup>
     <Compile Include="Abstract\IDrawingObjectRepository.cs" />
     <Compile Include="Abstract\IDrawingRepository.cs" />
+    <Compile Include="Abstract\IRoomRepository.cs" />
     <Compile Include="Concrete\DrawingObjectRepository.cs" />
     <Compile Include="Concrete\DrawingRepository.cs" />
     <Compile Include="Concrete\HomeDrawDbContext.cs" />
+    <Compile Include="Concrete\RoomRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

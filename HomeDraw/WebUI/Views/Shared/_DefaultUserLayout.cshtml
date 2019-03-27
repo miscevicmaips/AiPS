@@ -22,13 +22,13 @@
                         Drawings
                     </a>
                     <div class="dropdown-menu text-center" aria-labelledby="navbarDropdown">
-                        @Html.ActionLink("My Drawings", "MyDrawings", "Drawing", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Saved Drawings", "SavedDrawings", "Home", null, new { @class = "dropdown-item" })
                         <div class="dropdown-divider"></div>
-                        @Html.ActionLink("Public Drawings", "PublicDrawings", "Drawing", null, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Public Rooms", "PublicRooms", "Home", null, new { @class = "dropdown-item" })
                     </div>
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink("Settings", "Logout", "Account", null, new { @class = "nav-link" })
+                    @Html.ActionLink("Settings", "Settings", "Home", null, new { @class = "nav-link" })
                 </li>
                 <li>
                     @Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "nav-link" })
