@@ -1,9 +1,144 @@
 ﻿@model Domain.Entities.Room
 
-@{
-    ViewBag.Title = "Room - " + Model.Name;
-    Layout = "~/Views/Shared/_DefaultUserLayout.cshtml";
-}
+<!DOCTYPE html>
 
-<h2 class="mt-5">@Model.Name</h2>
+<html>
+<head>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/room-page.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Room @Model.Name</title>
+</head>
+<body class="layoutBodySize">
+    <nav class=" navbar navbar-expand-lg navbar-light bg-light">
+       <a class="navbar-brand">Room - @Model.Name</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#saveDrawingModal">Save Drawing</a>
+                   @* @Html.ActionLink("Save Drawing", "Settings", "Home", null, new { @class = "nav-link" })*@
+                </li>
+                <li>
+                    @Html.ActionLink("Exit Room", "PublicRooms", "Home", null, new { @class = "nav-link" })
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container-fluid h-100 p-0 m-0 d-flex flex-column">
+
+        <!-- Drawing Surface -->
+        <div id="drawingSurface" class="drawingSurface flex-grow-1 border border-primary">
+        </div>
+        <!-- Drawing Menu -->
+        <div class="flex-grow-0">
+            <div class="card card-body">
+                <div class="form-row align-items-center text-center">
+                    <div class="col">
+                        <i>
+                            <img class="toolsIcon" src="~/Content/icons/toolsIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createBathButton" class="iconButton" src="~/Content/icons/bathIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createLavatoryButton" class="iconButton" src="~/Content/icons/lavatoryIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createShowerButton" class="iconButton" src="~/Content/icons/showerIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createDoorButton" class="iconButton" src="~/Content/icons/doorIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createWallButton" class="iconButton" src="~/Content/icons/wallIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createWindowButton" class="iconButton" src="~/Content/icons/windowIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createRefrigeratorButton" class="iconButton" src="~/Content/icons/refrigeratorIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createSinkButton" class="iconButton" src="~/Content/icons/sinkIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createStoveButton" class="iconButton" src="~/Content/icons/stoveIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createSofaButton" class="iconButton" src="~/Content/icons/sofaIcon.png" />
+                        </i>
+                    </div>
+
+                    <div class="col">
+                        <i>
+                            <img id="createTableButton" class="iconButton" src="~/Content/icons/tableIcon.png" />
+                        </i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Drawing Modal -->
+        <div class="modal fade" id="saveDrawingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="saveDrawingModalLabel">Enter drawing name:</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
+                        <button type="button" class="btn btn-primary float-right mt-2">Save</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+
+
 

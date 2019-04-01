@@ -29,10 +29,16 @@ namespace WebUI.Controllers
         public ActionResult CreateRoom(DashboardViewModel vm)
         {
             Room newRoom = new Room();
+            Drawing containedDrawing = new Drawing();
 
             newRoom.Name = vm.RoomName;
             newRoom.Password = vm.RoomPassword;
             newRoom.RoomCreatorID = User.Identity.GetUserId();
+
+            containedDrawing.DrawingName = newRoom.Name;
+            containedDrawing.DrawingOwner = DrawingTypeEnum.RoomDrawing;
+
+            newRoom.ContainedDrawing = containedDrawing;
 
             roomRepository.Create(newRoom);
 

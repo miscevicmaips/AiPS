@@ -34,7 +34,13 @@ namespace DAL.Concrete
         {
             using (var context = new HomeDrawDbContext())
             {
-                return context.Rooms.Find(roomId);
+                Room roomToReturn = new Room();
+
+                roomToReturn = context.Rooms.Find(roomId);
+
+                context.Entry(roomToReturn).Reference(c => c.ContainedDrawing).Load();
+
+                return roomToReturn;
             }
         }
 

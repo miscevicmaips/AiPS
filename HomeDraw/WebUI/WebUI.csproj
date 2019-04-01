@@ -149,6 +149,18 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\icons\bathIcon.png" />
+    <Content Include="Content\icons\doorIcon.png" />
+    <Content Include="Content\icons\lavatoryIcon.png" />
+    <Content Include="Content\icons\refrigeratorIcon.png" />
+    <Content Include="Content\icons\showerIcon.png" />
+    <Content Include="Content\icons\sinkIcon.png" />
+    <Content Include="Content\icons\sofaIcon.png" />
+    <Content Include="Content\icons\stoveIcon.png" />
+    <Content Include="Content\icons\tableIcon.png" />
+    <Content Include="Content\icons\toolsIcon.png" />
+    <Content Include="Content\icons\wallIcon.png" />
+    <Content Include="Content\icons\windowIcon.png" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
     <Content Include="Content\images\ui-icons_777620_256x240.png" />
@@ -160,6 +172,7 @@
     <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="Content\layout-page.css" />
     <Content Include="Content\login-page.css" />
+    <Content Include="Content\room-page.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />

@@ -7,20 +7,49 @@
 
 <h2 class="mt-5">PublicRooms</h2>
 
-@foreach(var room in Model.PublicRoomsList)
-{
-    if(room != null)
-    {
-<div class="card ml-5 mr-5 mb-4 p-2 text-center bg-dark">
-    <h5 class="text-light">@room.Name</h5>
-    @Html.ActionLink("Enter", "OpenRoom", "Room", new { room.RoomID, Model.RoomPassword }, new { @class = "btn btn-block btn-info mb-2" })
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="text-center">Room</th>
+            <th scope="col" class="text-center">Creator</th>
+            <th scope="col" class="text-center">Open</th>
+            <th scope="col" class="text-center">Remove</th>
+        </tr>
+    </thead>
+    <tbody>
 
-    @using (Html.BeginForm("DeleteRoom", "Room"))
-    {
-        @Html.Hidden("RoomId", room.RoomID)
-        <input type="submit" value="Delete" class="btn btn-block btn-danger" />
-    }
-</div>
-    }
-}
+        @{ int counter = 1; }
+
+        @foreach (var room in Model.PublicRoomsList)
+        {
+            if (room != null)
+            {
+                <tr>
+                    <th scope="row">@counter</th>
+                    <td class="text-center">@room.Name</td>
+                    <td class="text-center">Creator ID</td>
+                    <td class="text-center">
+                         @Html.ActionLink("Enter", "OpenRoom", "Room", new { room.RoomID, Model.RoomPassword }, new { @class = "btn btn-info mb-2" })
+                    </td>
+                    <td class="text-center">
+                        @using (Html.BeginForm("DeleteRoom", "Room"))
+                        {
+                            @Html.Hidden("RoomId", room.RoomID)
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        }
+                    </td>
+                </tr>
+            }
+
+            counter++;
+        }
+    </tbody>
+</table> 
+
+
+
+
+
+
 

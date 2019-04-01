@@ -10,6 +10,6 @@ namespace WebUI.Models
     {
         public IEnumerable<Room> PublicRoomsList { get; set; }
 
-        public string RoomPassword { get; set; }
+        public string RoomPassword { get; set; } = "linkin1";
     }
 }

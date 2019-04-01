@@ -1,0 +1,40 @@
+﻿html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.layoutBodySize {
+    height: 100%;
+}
+
+.toolsIcon {
+    color:black;
+    max-width:2em;
+    max-height:2em;
+}
+
+.iconButton {
+    color: black;
+    max-width: 2em;
+    max-height: 2em;
+    cursor: pointer;
+    transition:0.2s;
+}
+
+.iconButton:hover {
+    max-width:1.8em;
+    max-height:1.8em;
+    transition:0.2s;
+}
+
+.iconButton:active {
+    max-width:1.5em;
+    max-height:1.5em;
+    transition:0.2s;
+}
+
+.drawingSurface {
+}
