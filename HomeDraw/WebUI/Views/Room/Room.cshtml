@@ -5,7 +5,10 @@
 <html>
 <head>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/two.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <link href="~/Content/room-page.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
@@ -14,7 +17,7 @@
 </head>
 <body class="layoutBodySize">
     <nav class=" navbar navbar-expand-lg navbar-light bg-light">
-       <a class="navbar-brand">Room - @Model.Name</a>
+        <a class="navbar-brand">Room - @Model.Name</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -22,7 +25,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#saveDrawingModal">Save Drawing</a>
-                   @* @Html.ActionLink("Save Drawing", "Settings", "Home", null, new { @class = "nav-link" })*@
+                    @* @Html.ActionLink("Save Drawing", "Settings", "Home", null, new { @class = "nav-link" })*@
                 </li>
                 <li>
                     @Html.ActionLink("Exit Room", "PublicRooms", "Home", null, new { @class = "nav-link" })
@@ -131,12 +134,149 @@
                         @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
                         <button type="button" class="btn btn-primary float-right mt-2">Save</button>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
 
     </div>
+
+
+    <script>
+        $(function () {
+
+            var draw = $.connection.signalRHub;
+
+            draw.client.drawElementCallback = function (elementType, elementId) {
+
+                var element = $('<div></div>', {
+                    style: 'width: ' + 100 + 'px; height: ' + 100 + 'px; background-color:black;',
+                    id: elementType + elementId
+                });
+
+                $('#drawingSurface').append(element.draggable({
+                    drag: function () {
+                        var position = element.offset();
+                        draw.server.moveElement(position.left, position.top);
+                        console.log("LEFT: " + position.left)
+                        console.log("RIGHT: " + position.top);
+                        console.log("==========");
+                    }
+                }));
+
+                var elem = document.getElementById(elementType + elementId);
+                var params = { width: 100, height: 100 };
+                var two = new Two(params).appendTo(elem);
+
+                if (elementType == 'bathElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = '#FF8000';
+                    circle.stroke = 'orangered';
+                    circle.linewidth = 5;
+                    two.update();
+                } 
+            };
+
+            $.connection.hub.start().done(function () {
+                $('#createBathButton').click(function () {
+                    draw.server.drawElement('bathElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createLavatoryButton').click(function () {
+                    draw.server.drawElement('lavatoryElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createShowerButton').click(function () {
+                    draw.server.drawElement('showerElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createDoorButton').click(function () {
+                    draw.server.drawElement('doorElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createWallButton').click(function () {
+                    draw.server.drawElement('wallElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createWindowButton').click(function () {
+                    draw.server.drawElement('windowElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createRefrigeratorButton').click(function () {
+                    draw.server.drawElement('refrigeratorElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createSinkButton').click(function () {
+                    draw.server.drawElement('sinkElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createStoveButton').click(function () {
+                    draw.server.drawElement('stoveElement');
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createSofaButton').click(function () {
+                    draw.server.drawElement('sofaElement');
+                });
+            });
+
+
+        });
+    </script>
+
+    <script>
+        // JavaScript - MoveElement
+        var draw = $.connection.signalRHub;
+        draw.client.moveElementCallback = function (x, y) {
+            $('#draggableCircle').css({ left: x, top: y });
+        };
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
 

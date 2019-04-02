@@ -33,9 +33,17 @@ namespace WebUI.Hubs
             Clients.Others.moveRectangleElementCallback(x, y);
         }
 
-        public void MoveUniversalElement(int x, int y, string id)
+       /* ================================================================== */
+        public void MoveElement(int x, int y)
         {
-            Clients.Others.moveUniversalElementCallback(x, y, id);
+            Clients.Others.moveElementCallback(x, y);
+        }
+
+        public void DrawElement(string elementType)
+        {
+            int elementId = 0;
+
+            Clients.All.drawElementCallback(elementType, elementId);
         }
     }
 }
