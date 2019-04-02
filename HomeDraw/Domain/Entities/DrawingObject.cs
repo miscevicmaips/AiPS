@@ -19,7 +19,5 @@ namespace Domain.Entities
         public DrawingObjectTypeEnum DrawingObjectType { get;set; }
 
         public int DrawingID { get; set; }
-        public Drawing Drawing { get; set; }
-
     }
 }

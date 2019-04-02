@@ -179,7 +179,7 @@
 
             $.connection.hub.start().done(function () {
                 $('#createBathButton').click(function () {
-                    draw.server.drawElement('bathElement');
+                    draw.server.drawElement('bathElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 

@@ -1,5 +1,6 @@
 ﻿using DAL.Concrete;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebUI.Hubs;
 using WebUI.Infrastructure;
 
 namespace WebUI.App_Start
@@ -25,6 +27,10 @@ namespace WebUI.App_Start
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/LogIn"),
             });
+
+            GlobalHost.DependencyResolver.Register(
+                typeof(SignalRHub),
+                () => new SignalRHub(new DrawingObjectRepository()));
 
             app.MapSignalR();
         }

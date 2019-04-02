@@ -10,6 +10,18 @@ namespace DAL.Concrete
 {
     public class DrawingRepository : IDrawingRepository
     {
+        public Drawing GetDrawingById(int drawingId)
+        {
+            using (var context = new HomeDrawDbContext())
+            {
+                Drawing drawingToReturn = new Drawing();
 
+                drawingToReturn = context.Drawings.Find(drawingId);
+
+                context.Entry(drawingToReturn).Reference(o => o.DrawingObjects).Load();
+
+                return drawingToReturn;
+            }
+        }
     }
 }

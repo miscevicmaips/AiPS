@@ -9,5 +9,6 @@ namespace DAL.Abstract
 {
     public interface IDrawingRepository
     {
+        Drawing GetDrawingById(int drawingId);
     }
 }
