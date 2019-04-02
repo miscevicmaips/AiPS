@@ -147,6 +147,7 @@
 
             var draw = $.connection.signalRHub;
 
+            /* Callback to create an element! */
             draw.client.drawElementCallback = function (elementType, elementId) {
 
                 var element = $('<div></div>', {
@@ -154,13 +155,12 @@
                     id: elementType + elementId
                 });
 
+                element.css("position", "absolute");
+
                 $('#drawingSurface').append(element.draggable({
                     drag: function () {
                         var position = element.offset();
-                        draw.server.moveElement(position.left, position.top);
-                        console.log("LEFT: " + position.left)
-                        console.log("RIGHT: " + position.top);
-                        console.log("==========");
+                        draw.server.moveElement(position.left, position.top, elementType + elementId);
                     }
                 }));
 
@@ -170,11 +170,97 @@
 
                 if (elementType == 'bathElement') {
                     var circle = two.makeCircle(72, 100, 50);
-                    circle.fill = '#FF8000';
+                    circle.fill = 'orangered';
                     circle.stroke = 'orangered';
                     circle.linewidth = 5;
                     two.update();
-                } 
+                }
+
+                if (elementType == 'lavatoryElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'red';
+                    circle.stroke = 'red';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'showerElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'blue';
+                    circle.stroke = 'blue';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'doorElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'green';
+                    circle.stroke = 'green';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'wallElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'purple';
+                    circle.stroke = 'purple';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'windowElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'brown';
+                    circle.stroke = 'brown';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'refrigeratorElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'black';
+                    circle.stroke = 'black';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'sinkElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'yellow';
+                    circle.stroke = 'yellow';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'stoveElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'gray';
+                    circle.stroke = 'gray';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'sofaElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'cyan';
+                    circle.stroke = 'cyan';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+
+                if (elementType == 'tableElement') {
+                    var circle = two.makeCircle(72, 100, 50);
+                    circle.fill = 'violet';
+                    circle.stroke = 'violet';
+                    circle.linewidth = 5;
+                    two.update();
+                }
+            };
+
+
+            /* Callback to move an element! */
+            draw.client.moveElementCallback = function (x, y, elementId) {
+                $("#" + elementId).css({ left: x, top: y });
             };
 
             $.connection.hub.start().done(function () {
@@ -185,55 +271,61 @@
 
             $.connection.hub.start().done(function () {
                 $('#createLavatoryButton').click(function () {
-                    draw.server.drawElement('lavatoryElement');
+                    draw.server.drawElement('lavatoryElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createShowerButton').click(function () {
-                    draw.server.drawElement('showerElement');
+                    draw.server.drawElement('showerElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createDoorButton').click(function () {
-                    draw.server.drawElement('doorElement');
+                    draw.server.drawElement('doorElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createWallButton').click(function () {
-                    draw.server.drawElement('wallElement');
+                    draw.server.drawElement('wallElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createWindowButton').click(function () {
-                    draw.server.drawElement('windowElement');
+                    draw.server.drawElement('windowElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createRefrigeratorButton').click(function () {
-                    draw.server.drawElement('refrigeratorElement');
+                    draw.server.drawElement('refrigeratorElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createSinkButton').click(function () {
-                    draw.server.drawElement('sinkElement');
+                    draw.server.drawElement('sinkElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createStoveButton').click(function () {
-                    draw.server.drawElement('stoveElement');
+                    draw.server.drawElement('stoveElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
             $.connection.hub.start().done(function () {
                 $('#createSofaButton').click(function () {
-                    draw.server.drawElement('sofaElement');
+                    draw.server.drawElement('sofaElement', @Model.ContainedDrawing.DrawingID);
+                });
+            });
+
+            $.connection.hub.start().done(function () {
+                $('#createTableButton').click(function () {
+                    draw.server.drawElement('tableElement', @Model.ContainedDrawing.DrawingID);
                 });
             });
 
@@ -241,13 +333,6 @@
         });
     </script>
 
-    <script>
-        // JavaScript - MoveElement
-        var draw = $.connection.signalRHub;
-        draw.client.moveElementCallback = function (x, y) {
-            $('#draggableCircle').css({ left: x, top: y });
-        };
-    </script>
 
 
 
