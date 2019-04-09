@@ -11,11 +11,11 @@ namespace WebUI.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private IRoomRepository roomRepository;
+        private IDrawingRepository drawingRepository;
 
-        public HomeController(IRoomRepository roomRepo)
+        public HomeController(IDrawingRepository drawingRepo)
         {
-            roomRepository = roomRepo;
+            drawingRepository = drawingRepo;
         }
 
         public ActionResult Dashboard()
@@ -23,11 +23,11 @@ namespace WebUI.Controllers
             return View();
         }
         
-        public ActionResult PublicRooms()
+        public ActionResult PublicDrawings()
         {
-            PublicRoomsViewModel vm = new PublicRoomsViewModel();
+            PublicDrawingsViewModel vm = new PublicDrawingsViewModel();
 
-            vm.PublicRoomsList = roomRepository.GetAllRooms();
+            vm.PublicDrawings = drawingRepository.GetAllDrawings();
 
             return View(vm);
         }

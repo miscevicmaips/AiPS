@@ -4,7 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
+
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -17,10 +20,10 @@ namespace Domain.Entities
 
         public int DrawingID { get; set; }
 
-        public string DrawingName { get; set; }
+        public string Name { get; set; }
 
-        public DrawingTypeEnum DrawingOwner { get; set; }
+        public string Password { get; set; }
 
-        public ICollection<DrawingObject> DrawingObjects { get; set; }
+        public virtual ICollection<DrawingObject> DrawingObjects { get; set; }
     }
 }

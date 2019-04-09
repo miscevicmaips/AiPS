@@ -1,6 +1,7 @@
 ﻿using Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,6 @@ namespace Domain.Entities
         public DrawingObjectTypeEnum DrawingObjectType { get;set; }
 
         public int DrawingID { get; set; }
+        public virtual Drawing Drawing { get; set; }    
     }
 }

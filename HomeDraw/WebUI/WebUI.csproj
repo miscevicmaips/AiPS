@@ -227,8 +227,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DrawingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RoomController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,14 +237,14 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\LogInViewModel.cs" />
-    <Compile Include="Models\PublicRoomsViewModel.cs" />
+    <Compile Include="Models\OpenDrawingViewModel.cs" />
+    <Compile Include="Models\PublicDrawingsViewModel.cs" />
     <Compile Include="Models\SavedDrawingsViewModel.cs" />
     <Compile Include="Models\SettingsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Account\LogIn.cshtml" />
     <Content Include="Views\Shared\_DefaultUserLayout.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
@@ -262,10 +260,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Home\PublicRooms.cshtml" />
+    <Content Include="Views\Home\PublicDrawings.cshtml" />
     <Content Include="Views\Home\SavedDrawings.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Room\Room.cshtml" />
+    <Content Include="Views\Drawing\Drawing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -275,7 +274,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Drawing\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

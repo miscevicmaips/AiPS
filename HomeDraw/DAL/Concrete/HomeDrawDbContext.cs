@@ -13,11 +13,9 @@ namespace DAL.Concrete
     public class HomeDrawDbContext : IdentityDbContext<AppUser>
     {
         public HomeDrawDbContext() : base("HomeDrawDatabase") { }
-
-        public DbSet<Room> Rooms { get; set; }
+        
         public DbSet<Drawing> Drawings { get; set; }
         public DbSet<DrawingObject> DrawingObjects { get; set; }
-        public DbSet<TestEntity> TestEntities { get; set; }
 
         public static HomeDrawDbContext Create()
         {
@@ -34,13 +32,6 @@ namespace DAL.Concrete
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
                 context.Users.Add(user);
-
-
-
-                TestEntity testEntity = new TestEntity();
-                testEntity.Name = "Some Test Entity";
-
-                context.TestEntities.Add(testEntity);
 
                 base.Seed(context);
             }

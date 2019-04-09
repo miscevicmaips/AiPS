@@ -1,4 +1,4 @@
-﻿@*@model Domain.Entities.Room
+﻿@model WebUI.Models.OpenDrawingViewModel
 
 <!DOCTYPE html>
 
@@ -13,11 +13,11 @@
     <link href="~/Content/room-page.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width" />
-    <title>Room @Model.Name</title>
+    <title>Drawing @Model.Drawing.Name</title>
 </head>
 <body class="layoutBodySize">
     <nav class=" navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Room - @Model.Name</a>
+        <a class="navbar-brand">Drawing - @Model.Drawing.Name</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,9 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#saveDrawingModal">Save Drawing</a>
                     @* @Html.ActionLink("Save Drawing", "Settings", "Home", null, new { @class = "nav-link" })*@
-                @*</li>
+                </li>
                 <li>
-                    @Html.ActionLink("Exit Room", "PublicRooms", "Home", null, new { @class = "nav-link" })
+                    @Html.ActionLink("Exit Drawing", "PublicDrawings", "Home", null, new { @class = "nav-link" })
                 </li>
             </ul>
         </div>
@@ -131,7 +131,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.SavedDrawingName , new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
                         <button type="button" class="btn btn-primary float-right mt-2">Save</button>
                     </div>
 
@@ -165,7 +165,7 @@
                     }
                 }));
 
-                
+
 
                 if (elementType == 'bathElement') {
                     var x = 100;
@@ -551,7 +551,7 @@
 
 
 </body>
-</html>*@*@
+</html>
 
 
 

@@ -9,6 +9,11 @@ namespace DAL.Abstract
 {
     public interface IDrawingObjectRepository
     {
-        void CreateObject(DrawingObject drawingObject);
+        void CreateDrawingObject(DrawingObject drawingObject);
+        DrawingObject ReadDrawingObject(int drawingObjectId);
+        void UpdateDrawingObject(DrawingObject drawingObject);
+        void DeleteDrawingObject(int drawingObjectId);
+
+        IEnumerable<DrawingObject> GetAllDrawingObjects();
     }
 }

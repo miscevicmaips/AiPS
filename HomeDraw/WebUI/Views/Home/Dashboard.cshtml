@@ -12,7 +12,7 @@
             <p>Use "Create New / Join Existing" button to create a new drawing or join an existing one to work with other users.</p>
             <div>
                 <button class="btn btn-info" data-toggle="collapse" data-target="#createNewDrawing" aria-expanded="false" aria-controls="createNewDrawing">Create New</button>
-                @Html.ActionLink("Public Rooms", "PublicRooms", "Home", null, new { @class = "btn btn-info" })
+                @Html.ActionLink("Public Drawings", "PublicDrawings", "Home", null, new { @class = "btn btn-info" })
             </div>
         </div>
     </div>
@@ -21,15 +21,15 @@
         <div class="collapse" id="createNewDrawing" data-parent="#dropdownGroup">
             <a href="#" class="badge badge-info m-2 p-1">Create New</a>
             <div class="card card-body">
-                @using (Html.BeginForm("CreateRoom", "Room", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("CreateDrawing", "Drawing", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     <div class="form-row align-items-center">
                         <div class="col-5">
-                            @Html.TextBoxFor(m => m.RoomName, new { @class = "form-control", @placeholder = "Enter room name", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.DrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
                         </div>
 
                         <div class="col-5">
-                            @Html.PasswordFor(m => m.RoomPassword, new { @class = "form-control", @placeholder = "Enter password", autocomplete = "off" })
+                            @Html.PasswordFor(m => m.DrawingPassword, new { @class = "form-control", @placeholder = "Enter password", autocomplete = "off" })
                         </div>
 
                         <div class="col-2">

@@ -11,10 +11,12 @@ namespace WebUI.Hubs
     public class SignalRHub : Hub
     {
         private IDrawingObjectRepository drawingObjectRepository;
+        private IDrawingRepository drawingRepository;
 
-        public SignalRHub(IDrawingObjectRepository drawingObjectRepo)
+        public SignalRHub(IDrawingObjectRepository drawingObjectRepo, IDrawingRepository drawingRepo)
         {
             drawingObjectRepository = drawingObjectRepo;
+            drawingRepository = drawingRepo;
         }
 
         public void Send(string name, string message)
@@ -45,19 +47,23 @@ namespace WebUI.Hubs
         /* ================================================================== */
         public void MoveElement(int x, int y, string elementId)
         {
-            Clients.Others.moveElementCallback(x, y,elementId);
+            Clients.Others.moveElementCallback(x, y, elementId);
         }
 
         public void DrawElement(string elementType, int containedDrawingId)
         {
             int? elementId = null;
 
-            if(elementType == "bathElement")
+            Drawing drawing = drawingRepository.ReadDrawing(containedDrawingId);
+
+            if (elementType == "bathElement")
             {
                 DrawingObject newBathElement = new DrawingObject();
                 newBathElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Bath;
-                newBathElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newBathElement);
+                newBathElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newBathElement);
+
+                drawing.DrawingObjects.Add(newBathElement);
 
                 elementId = newBathElement.DrawingObjectID;
             }
@@ -66,8 +72,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newLavatoryElement = new DrawingObject();
                 newLavatoryElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Lavatory;
-                newLavatoryElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newLavatoryElement);
+                newLavatoryElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newLavatoryElement);
+
+                drawing.DrawingObjects.Add(newLavatoryElement);
 
                 elementId = newLavatoryElement.DrawingObjectID;
             }
@@ -76,8 +84,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newShowerElement = new DrawingObject();
                 newShowerElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Shower;
-                newShowerElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newShowerElement);
+                newShowerElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newShowerElement);
+
+                drawing.DrawingObjects.Add(newShowerElement);
 
                 elementId = newShowerElement.DrawingObjectID;
             }
@@ -86,8 +96,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newDoorElement = new DrawingObject();
                 newDoorElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Door;
-                newDoorElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newDoorElement);
+                newDoorElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newDoorElement);
+
+                drawing.DrawingObjects.Add(newDoorElement);
 
                 elementId = newDoorElement.DrawingObjectID;
             }
@@ -96,8 +108,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newWallElement = new DrawingObject();
                 newWallElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Wall;
-                newWallElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newWallElement);
+                newWallElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newWallElement);
+
+                drawing.DrawingObjects.Add(newWallElement);
 
                 elementId = newWallElement.DrawingObjectID;
             }
@@ -106,8 +120,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newWindowElement = new DrawingObject();
                 newWindowElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Window;
-                newWindowElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newWindowElement);
+                newWindowElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newWindowElement);
+
+                drawing.DrawingObjects.Add(newWindowElement);
 
                 elementId = newWindowElement.DrawingObjectID;
             }
@@ -116,8 +132,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newRefrigeratorElement = new DrawingObject();
                 newRefrigeratorElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Refrigerator;
-                newRefrigeratorElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newRefrigeratorElement);
+                newRefrigeratorElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newRefrigeratorElement);
+
+                drawing.DrawingObjects.Add(newRefrigeratorElement);
 
                 elementId = newRefrigeratorElement.DrawingObjectID;
             }
@@ -126,8 +144,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newSinkElement = new DrawingObject();
                 newSinkElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Sink;
-                newSinkElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newSinkElement);
+                newSinkElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newSinkElement);
+
+                drawing.DrawingObjects.Add(newSinkElement);
 
                 elementId = newSinkElement.DrawingObjectID;
             }
@@ -136,8 +156,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newStoveElement = new DrawingObject();
                 newStoveElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Stove;
-                newStoveElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newStoveElement);
+                newStoveElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newStoveElement);
+
+                drawing.DrawingObjects.Add(newStoveElement);
 
                 elementId = newStoveElement.DrawingObjectID;
             }
@@ -146,8 +168,10 @@ namespace WebUI.Hubs
             {
                 DrawingObject newSofaElement = new DrawingObject();
                 newSofaElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Sofa;
-                newSofaElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newSofaElement);
+                newSofaElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newSofaElement);
+
+                drawing.DrawingObjects.Add(newSofaElement);
 
                 elementId = newSofaElement.DrawingObjectID;
             }
@@ -157,11 +181,15 @@ namespace WebUI.Hubs
             {
                 DrawingObject newTableElement = new DrawingObject();
                 newTableElement.DrawingObjectType = Domain.Enums.DrawingObjectTypeEnum.Table;
-                newTableElement.DrawingID = containedDrawingId;
-                drawingObjectRepository.CreateObject(newTableElement);
+                newTableElement.DrawingID = drawing.DrawingID;
+                drawingObjectRepository.CreateDrawingObject(newTableElement);
+
+                drawing.DrawingObjects.Add(newTableElement);
 
                 elementId = newTableElement.DrawingObjectID;
             }
+
+            drawingRepository.UpdateDrawing(drawing);
 
             Clients.All.drawElementCallback(elementType, elementId);
         }
