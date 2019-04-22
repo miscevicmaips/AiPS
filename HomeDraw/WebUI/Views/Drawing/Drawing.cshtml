@@ -141,7 +141,7 @@
 
     </div>
 
-
+   
     <script>
         $(function () {
 
@@ -515,6 +515,11 @@
                 $('#createTableButton').click(function () {
                     draw.server.drawElement('tableElement', @Model.Drawing.DrawingID);
                 });
+            });
+
+            $.connection.hub.start().done(function () {
+                draw.server.join(@Model.Drawing.DrawingID);
+                console.log("Joined group: " + @Model.Drawing.DrawingID);
             });
 
 

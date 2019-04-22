@@ -25,5 +25,6 @@ namespace Domain.Entities
         public string Password { get; set; }
 
         public virtual ICollection<DrawingObject> DrawingObjects { get; set; }
+
     }
 }

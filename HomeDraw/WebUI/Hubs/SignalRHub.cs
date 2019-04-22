@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using DAL.Abstract;
 using Domain.Entities;
@@ -99,7 +100,17 @@ namespace WebUI.Hubs
 
             drawingRepository.UpdateDrawing(drawing);
 
-            Clients.All.drawElementCallback(elementType, elementId);
+            Clients.Group(containedDrawingId.ToString()).drawElementCallback(elementType, elementId);
+        }
+
+        public Task Join(string groupName)
+        {
+            return Groups.Add(Context.ConnectionId, groupName);
+        }
+
+        public Task Leave(string groupName)
+        {
+            return Groups.Remove(Context.ConnectionId, groupName);
         }
     }
 }

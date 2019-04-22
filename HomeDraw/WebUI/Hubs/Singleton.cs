@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,13 +10,12 @@ namespace WebUI.Hubs
     {
         private static Singleton _instance;
 
-        public Dictionary<int, Queue<string>> ListOfDrawings;
+        public Dictionary<int, Queue<int>> ListOfDrawings;
 
         private static object syncLock = new object();
 
         protected Singleton()
         {
-
         }
 
         public static Singleton GetInstance()

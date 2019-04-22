@@ -33,6 +33,24 @@ namespace DAL.Concrete
 
                 context.Users.Add(user);
 
+                var user2 = new AppUser("User");
+                user2.PasswordHash = passwordHasher.HashPassword("User!");
+                user2.SecurityStamp = Guid.NewGuid().ToString();
+
+                context.Users.Add(user2);
+
+                var user3 = new AppUser("User2");
+                user3.PasswordHash = passwordHasher.HashPassword("User!");
+                user3.SecurityStamp = Guid.NewGuid().ToString();
+
+                context.Users.Add(user3);
+
+                var user4 = new AppUser("User3");
+                user4.PasswordHash = passwordHasher.HashPassword("User!");
+                user3.SecurityStamp = Guid.NewGuid().ToString();
+
+                context.Users.Add(user4);
+
                 base.Seed(context);
             }
         }
