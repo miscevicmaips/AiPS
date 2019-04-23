@@ -159,6 +159,7 @@
     <Content Include="Content\icons\stoveIcon.png" />
     <Content Include="Content\icons\tableIcon.png" />
     <Content Include="Content\icons\toolsIcon.png" />
+    <Content Include="Content\icons\undoIcon.png" />
     <Content Include="Content\icons\wallIcon.png" />
     <Content Include="Content\icons\windowIcon.png" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
