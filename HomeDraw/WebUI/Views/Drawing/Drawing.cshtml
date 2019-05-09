@@ -131,7 +131,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        @Html.TextBoxFor(m => m.SavedDrawingName , new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
+                        @Html.TextBoxFor(m => m.SavedDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", autocomplete = "off" })
                         <button type="button" class="btn btn-primary float-right mt-2">Save</button>
                     </div>
 
@@ -141,8 +141,45 @@
 
     </div>
 
-   
+
     <script>
+
+        var Originator = function (elementsList) {
+            this.elementsList = elementsList;
+        }
+
+        Originator.prototype = {
+            hydrate: function () {
+                var memento = this;
+                return memento;
+            },
+
+            dehydrate: function (memento) {
+                var m = memento;
+                this.elementsList = m.elementsList;
+            }
+        }
+
+        var CareTaker = function () {
+            this.mementos = {};
+
+            this.add = function (key, memento) {
+                this.mementos[key] = memento;
+            },
+
+                this.get = function (key) {
+                return this.mementos[key];
+                }
+        }
+
+        var stateCounter = 0;
+        var eleList = {};
+        var originator = new Originator(eleList);
+        var caretaker = new CareTaker();
+
+        caretaker.add(stateCounter, originator.hydrate());
+        
+
         $(function () {
 
             var draw = $.connection.signalRHub;
@@ -162,7 +199,13 @@
                     drag: function () {
                         var position = element.offset();
                         draw.server.moveElement(position.left, position.top, elementType + elementId);
-                    }
+                    },
+                    //stop: function () {
+                    //    var listOfElements = $("#drawingSurface").children();
+                    //    var asd = new Originator(listOfElements);
+                    //    stateCounter++;
+                    //    caretaker.add(stateCounter, asd.hydrate());
+                    //}
                 }));
 
 
@@ -443,8 +486,40 @@
 
                     two.update();
                 }
+
+                var listOfElements = $("#drawingSurface").children();
+
+                var originator = new Originator(listOfElements);
+
+                stateCounter++;
+                caretaker.add(stateCounter, originator.hydrate());
+                
             };
 
+
+            $('#undoButton').click(function () {
+
+                if (stateCounter == 0) {
+                    originator.dehydrate(caretaker.get(stateCounter));
+                    stateCounter = 0;
+                }
+                
+                var drawingSurface = $("#drawingSurface");
+
+                drawingSurface.empty();
+
+                if (stateCounter > 0) {
+                    stateCounter--;
+
+                    originator.dehydrate(caretaker.get(stateCounter));
+                    var elements = originator.elementsList;
+
+                    $.each(elements, function (index, value) {
+                        drawingSurface.append(value);
+                    })
+                }
+
+            });
 
             /* Callback to move an element! */
             draw.client.moveElementCallback = function (x, y, elementId) {
