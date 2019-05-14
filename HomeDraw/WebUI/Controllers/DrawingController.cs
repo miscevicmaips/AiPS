@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebUI.Infrastructure;
 using WebUI.Models;
+using Newtonsoft.Json;
 
 namespace WebUI.Controllers
 {
@@ -52,6 +53,28 @@ namespace WebUI.Controllers
             drawingRepository.DeleteDrawing(drawingId);
 
             return RedirectToAction("PublicDrawings", "Home");
+        }
+
+        [HttpGet]
+        public JsonResult GetDrawingObjects(int drawingId)
+        {
+            List<DrawingObject> newObjects = new List<DrawingObject>();
+
+            Drawing drawing = drawingRepository.ReadDrawing(drawingId);
+
+            var drawingObjects = drawing.DrawingObjects;
+
+            foreach(var drawingObject in drawingObjects)
+            {
+                DrawingObject newObject = new DrawingObject();
+                newObject.DrawingObjectID = drawingObject.DrawingObjectID;
+                newObject.DrawingObjectType = drawingObject.DrawingObjectType;
+                newObject.PositionTop = drawingObject.PositionTop;
+                newObject.PositionLeft = drawingObject.PositionLeft;
+                newObjects.Add(newObject);
+            }
+
+            return Json(newObjects, JsonRequestBehavior.AllowGet);
         }
     }
 }

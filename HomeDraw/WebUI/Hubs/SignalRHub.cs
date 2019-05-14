@@ -25,6 +25,16 @@ namespace WebUI.Hubs
             Clients.Others.moveElementCallback(x, y, elementId);
         }
 
+        public void UpdateDrawingObject(int x, int y, int elementId)
+        {
+            DrawingObject elementToUpdate = drawingObjectRepository.ReadDrawingObject(elementId);
+
+            elementToUpdate.PositionLeft = x;
+            elementToUpdate.PositionTop = y;
+
+            drawingObjectRepository.UpdateDrawingObject(elementToUpdate);
+        }
+
         public void DrawElement(string elementType, int containedDrawingId)
         {
             int? elementId = null;
