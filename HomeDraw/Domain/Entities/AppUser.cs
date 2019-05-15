@@ -11,7 +11,7 @@ namespace Domain.Entities
     {
         public AppUser() : base()
         {
-            this.SavedDrawings = new HashSet<Drawing>();
+            //this.SavedDrawings = new HashSet<Drawing>();
         }
 
         public AppUser(string username) : base(username) { }
@@ -20,6 +20,6 @@ namespace Domain.Entities
 
         public string LastName { get; set; }
 
-        public ICollection<Drawing> SavedDrawings { get; set; }
+        //public ICollection<Drawing> SavedDrawings { get; set; }
     }
 }

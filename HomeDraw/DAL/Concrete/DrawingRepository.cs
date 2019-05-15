@@ -25,7 +25,7 @@ namespace DAL.Concrete
         {
             using (var context = new HomeDrawDbContext())
             {
-                return context.Drawings.Where(d => d.DrawingID == drawingId).Include(dro => dro.DrawingObjects).FirstOrDefault();
+                return context.Drawings.Where(d => d.DrawingID == drawingId).Include(dro => dro.DrawingObjects).Include(ju => ju.JoinedUsers).FirstOrDefault();
             }
         }
 
@@ -49,6 +49,32 @@ namespace DAL.Concrete
 
                 context.SaveChanges();
             }
+        }
+        
+        public Dictionary<int, Queue<string>> CreateRooms()
+        {
+            Dictionary<int, Queue<string>> Rooms = new Dictionary<int, Queue<string>>();
+
+            using (var context = new HomeDrawDbContext())
+            {
+                var drawings = (from p in context.Drawings select p);
+
+                foreach(Drawing drawing in drawings)
+                {
+                    Queue<string> queue = new Queue<string>();
+
+                    queue.Enqueue(drawing.MasterID);
+
+                    foreach(AppUser user in drawing.JoinedUsers)
+                    {
+                        queue.Enqueue(user.Id);
+                    }
+
+                    Rooms.Add(drawing.DrawingID, queue);
+                }
+            }
+
+            return Rooms;
         }
 
         public IEnumerable<Drawing> GetAllDrawings()

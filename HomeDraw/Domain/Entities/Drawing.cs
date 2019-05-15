@@ -16,6 +16,7 @@ namespace Domain.Entities
         public Drawing()
         {
             this.DrawingObjects = new HashSet<DrawingObject>();
+            this.JoinedUsers = new HashSet<AppUser>();
         }
 
         public int DrawingID { get; set; }
@@ -24,7 +25,11 @@ namespace Domain.Entities
 
         public string Password { get; set; }
 
+        public string MasterID { get; set; }
+
         public virtual ICollection<DrawingObject> DrawingObjects { get; set; }
+
+        public virtual ICollection<AppUser> JoinedUsers { get; set; }
 
     }
 }

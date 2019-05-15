@@ -9,13 +9,15 @@ namespace WebUI.Hubs
     public class Singleton
     {
         private static Singleton _instance;
+        private IDrawingRepository drawingRepository;
 
-        public Dictionary<int, Queue<int>> ListOfDrawings;
+        public Dictionary<int, Queue<string>> ListOfRooms;
 
         private static object syncLock = new object();
 
         protected Singleton()
         {
+            ListOfRooms = drawingRepository.CreateRooms();
         }
 
         public static Singleton GetInstance()

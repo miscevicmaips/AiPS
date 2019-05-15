@@ -1,5 +1,5 @@
 ﻿@model WebUI.Models.OpenDrawingViewModel
-
+@using Microsoft.AspNet.Identity
 <!DOCTYPE html>
 
 <html>
@@ -45,77 +45,89 @@
         <div class="flex-grow-0">
             <div class="card card-body">
                 <div class="form-row align-items-center text-center">
-                    <div class="col">
-                        <i>
-                            <img id="undoButton" class="iconButton" src="~/Content/icons/undoIcon.png" />
-                        </i>
-                    </div>
+                    @if (Model.Drawing.MasterID == User.Identity.GetUserId())
+                    {
+                        <div class="col">
+                            <i>
+                                <img id="undoButton" class="iconButton" src="~/Content/icons/undoIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createBathButton" class="iconButton" src="~/Content/icons/bathIcon.png" />
-                        </i>
-                    </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createLavatoryButton" class="iconButton" src="~/Content/icons/lavatoryIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createBathButton" class="iconButton" src="~/Content/icons/bathIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createShowerButton" class="iconButton" src="~/Content/icons/showerIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createLavatoryButton" class="iconButton" src="~/Content/icons/lavatoryIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createDoorButton" class="iconButton" src="~/Content/icons/doorIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createShowerButton" class="iconButton" src="~/Content/icons/showerIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createWallButton" class="iconButton" src="~/Content/icons/wallIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createDoorButton" class="iconButton" src="~/Content/icons/doorIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createWindowButton" class="iconButton" src="~/Content/icons/windowIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createWallButton" class="iconButton" src="~/Content/icons/wallIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createRefrigeratorButton" class="iconButton" src="~/Content/icons/refrigeratorIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createWindowButton" class="iconButton" src="~/Content/icons/windowIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createSinkButton" class="iconButton" src="~/Content/icons/sinkIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createRefrigeratorButton" class="iconButton" src="~/Content/icons/refrigeratorIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createStoveButton" class="iconButton" src="~/Content/icons/stoveIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createSinkButton" class="iconButton" src="~/Content/icons/sinkIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createSofaButton" class="iconButton" src="~/Content/icons/sofaIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createStoveButton" class="iconButton" src="~/Content/icons/stoveIcon.png" />
+                            </i>
+                        </div>
 
-                    <div class="col">
-                        <i>
-                            <img id="createTableButton" class="iconButton" src="~/Content/icons/tableIcon.png" />
-                        </i>
-                    </div>
+                        <div class="col">
+                            <i>
+                                <img id="createSofaButton" class="iconButton" src="~/Content/icons/sofaIcon.png" />
+                            </i>
+                        </div>
+
+                        <div class="col">
+                            <i>
+                                <img id="createTableButton" class="iconButton" src="~/Content/icons/tableIcon.png" />
+                            </i>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col text-center">
+                            YOU ARE NOT A MASTER
+                        </div>
+                    }
+
+
 
                 </div>
             </div>

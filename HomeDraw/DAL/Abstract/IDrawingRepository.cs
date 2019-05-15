@@ -14,6 +14,8 @@ namespace DAL.Abstract
         void UpdateDrawing(Drawing drawing);
         void DeleteDrawing(int drawingId);
 
+        Dictionary<int, Queue<string>> CreateRooms();
+
         IEnumerable<Drawing> GetAllDrawings();
     }
 }
