@@ -29,7 +29,7 @@
                     @* @Html.ActionLink("Save Drawing", "Settings", "Home", null, new { @class = "nav-link" })*@
                 </li>
                 <li>
-                    @Html.ActionLink("Exit Drawing", "PublicDrawings", "Home", null, new { @class = "nav-link" })
+                    @Html.ActionLink("Exit Drawing", "CloseDrawing", "Drawing", new { Model.Drawing.DrawingID }, new { @class = "nav-link" })
                 </li>
             </ul>
         </div>
@@ -44,91 +44,36 @@
         <!-- Drawing Menu -->
         <div class="flex-grow-0">
             <div class="card card-body">
-                <div class="form-row align-items-center text-center">
-                    @if (Model.Drawing.MasterID == User.Identity.GetUserId())
-                    {
-                        <div class="col">
-                            <i>
-                                <img id="undoButton" class="iconButton" src="~/Content/icons/undoIcon.png" />
-                            </i>
-                        </div>
+                <div id="masterInterfaceMenu" class="form-row align-items-center text-center d-none">
 
+                    <div class="col"><i><img id="leaveButton" class="iconButton" src="~/Content/icons/undoIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createBathButton" class="iconButton" src="~/Content/icons/bathIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createBathButton" class="iconButton" src="~/Content/icons/bathIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createLavatoryButton" class="iconButton" src="~/Content/icons/lavatoryIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createLavatoryButton" class="iconButton" src="~/Content/icons/lavatoryIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createShowerButton" class="iconButton" src="~/Content/icons/showerIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createShowerButton" class="iconButton" src="~/Content/icons/showerIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createDoorButton" class="iconButton" src="~/Content/icons/doorIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createDoorButton" class="iconButton" src="~/Content/icons/doorIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createWallButton" class="iconButton" src="~/Content/icons/wallIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createWallButton" class="iconButton" src="~/Content/icons/wallIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createWindowButton" class="iconButton" src="~/Content/icons/windowIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createWindowButton" class="iconButton" src="~/Content/icons/windowIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createRefrigeratorButton" class="iconButton" src="~/Content/icons/refrigeratorIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createRefrigeratorButton" class="iconButton" src="~/Content/icons/refrigeratorIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createSinkButton" class="iconButton" src="~/Content/icons/sinkIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createSinkButton" class="iconButton" src="~/Content/icons/sinkIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createStoveButton" class="iconButton" src="~/Content/icons/stoveIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createStoveButton" class="iconButton" src="~/Content/icons/stoveIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createSofaButton" class="iconButton" src="~/Content/icons/sofaIcon.png" />
-                            </i>
-                        </div>
+                    <div class="col"><i><img id="createSofaButton" class="iconButton" src="~/Content/icons/sofaIcon.png" /></i></div>
 
-                        <div class="col">
-                            <i>
-                                <img id="createTableButton" class="iconButton" src="~/Content/icons/tableIcon.png" />
-                            </i>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col text-center">
-                            YOU ARE NOT A MASTER
-                        </div>
-                    }
+                    <div class="col"><i><img id="createTableButton" class="iconButton" src="~/Content/icons/tableIcon.png" /></i></div>
 
+                </div>
 
-
+                <div id="normalInterfaceMenu" class="form-row align-items-center text-center d-none">
+                    <div class="col"><i><text style="font-weight:900;">CURRENT MASTER IS: </text></i></div>
                 </div>
             </div>
         </div>
@@ -323,6 +268,23 @@
 
             };
 
+            // Set interface
+            draw.client.setMasterInterface = function () {
+
+                var masterInterfaceMenu = document.getElementById("masterInterfaceMenu");
+
+                masterInterfaceMenu.classList.remove("d-none");
+                normalInterfaceMenu.classList.add("d-none");
+
+            };
+
+            draw.client.setNormalInterface = function () {
+                var normalInterfaceMenu = $("normalInterfaceMenu");
+
+                normalInterfaceMenu.classList.remove("d-none");
+                masterInterfaceMenu.classList.add("d-none");
+            };
+
             $('#undoButton').click(function () {
 
                 if (stateCounter == 0) {
@@ -419,8 +381,16 @@
             });
 
             $.connection.hub.start().done(function () {
-                draw.server.join(@Model.Drawing.DrawingID);
+                draw.server.join(@Model.Drawing.DrawingID, '@User.Identity.GetUserId()');
                 console.log("Joined group: " + @Model.Drawing.DrawingID);
+            });
+
+             $.connection.hub.start().done(function () {
+                $('#leaveButton').click(function () {
+                    draw.server.leave(@Model.Drawing.DrawingID, '@User.Identity.GetUserId()');
+                console.log("Left group: " + @Model.Drawing.DrawingID);
+
+                });
             });
 
         });

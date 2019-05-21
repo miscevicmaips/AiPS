@@ -3,48 +3,48 @@ function reconstructDrawingObject(draw, elementType, elementId, positionTop, pos
 
     createElement(draw, elementType, elementId, positionTop, positionLeft);
 
-    if (elementType == 'bathElement') {
+    if (elementType === 'bathElement') {
         drawBath(elementType, elementId);
     }
 
-    if (elementType == 'lavatoryElement') {
+    if (elementType === 'lavatoryElement') {
         drawLavatory(elementType, elementId);
     }
 
-    if (elementType == 'showerElement') {
+    if (elementType === 'showerElement') {
         drawShower(elementType, elementId);
     }
 
-    if (elementType == 'doorElement') {
+    if (elementType === 'doorElement') {
         drawDoor(elementType, elementId);
     }
 
-    if (elementType == 'wallElement') {
+    if (elementType === 'wallElement') {
         // Missing implementation
         drawWall(elementType, elementId);
     }
 
-    if (elementType == 'windowElement') {
+    if (elementType === 'windowElement') {
         drawWindow(elementType, elementId);
     }
 
-    if (elementType == 'refrigeratorElement') {
+    if (elementType === 'refrigeratorElement') {
         drawRefrigerator(elementType, elementId);
     }
 
-    if (elementType == 'sinkElement') {
+    if (elementType === 'sinkElement') {
         drawSink(elementType, elementId);
     }
 
-    if (elementType == 'stoveElement') {
+    if (elementType === 'stoveElement') {
         drawStove(elementType, elementId);
     }
 
-    if (elementType == 'sofaElement') {
+    if (elementType === 'sofaElement') {
         drawSofa(elementType, elementId);
     }
 
-    if (elementType == 'tableElement') {
+    if (elementType === 'tableElement') {
         drawTable(elementType, elementId);
     }
 }
@@ -57,7 +57,7 @@ function createElement(draw, elementType, elementId, positionTop, positionLeft) 
 
     element.css("position", "absolute");
 
-    if (positionTop != null && positionLeft != null) {
+    if (positionTop !== null && positionLeft !== null) {
         element.css("top", positionTop);
         element.css("left", positionLeft);
     }
@@ -70,7 +70,7 @@ function createElement(draw, elementType, elementId, positionTop, positionLeft) 
         },
         stop: function () {
             var position = element.offset();
-            draw.server.updateDrawingObject(position.left, position.top, elementId);
+            draw.server.updateElement(position.left, position.top, elementId);
         }
     }));
 }

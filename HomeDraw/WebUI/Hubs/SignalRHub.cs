@@ -25,7 +25,7 @@ namespace WebUI.Hubs
             Clients.Others.moveElementCallback(x, y, elementId);
         }
 
-        public void UpdateDrawingObject(int x, int y, int elementId)
+        public void UpdateElement(int x, int y, int elementId)
         {
             DrawingObject elementToUpdate = drawingObjectRepository.ReadDrawingObject(elementId);
 
@@ -113,14 +113,130 @@ namespace WebUI.Hubs
             Clients.Group(containedDrawingId.ToString()).drawElementCallback(elementType, elementId);
         }
 
-        public Task Join(string groupName)
+        public void EnqueueUser(int drawingId, string userId)
         {
+            Singleton rooms = Singleton.GetInstance();
+
+            // If ListOfRooms contains this drawing -> check if queue is empty.
+            if (rooms.ListOfRooms.ContainsKey(drawingId))
+            {
+                // If queue is empty -> set first enqueued user to master
+                // If queue is empty -> update drawing master id in database
+                if (rooms.ListOfRooms[drawingId].Count == 0)
+                {
+                    Drawing updateMasterDrawing = drawingRepository.ReadDrawing(drawingId);
+
+                    updateMasterDrawing.MasterID = userId;
+
+                    drawingRepository.UpdateDrawing(updateMasterDrawing);
+
+                    rooms.ListOfRooms[drawingId].Enqueue(userId);
+                }
+                // If queue is not empty -> add the user to the queue
+                else
+                {
+                    rooms.ListOfRooms[drawingId].Enqueue(userId);
+
+                }
+
+            }
+        }
+
+        public void DequeueUser(int drawingId, string userId)
+        {
+            Singleton rooms = Singleton.GetInstance();
+
+            if(rooms.ListOfRooms.ContainsKey(drawingId))
+            {
+                if(!rooms.ListOfRooms[drawingId].Contains(userId))
+                {
+                    string masterId = rooms.ListOfRooms[drawingId].ElementAt(0);
+
+                    // If the current user is also the master -> leave queue
+                    if (userId == masterId)
+                    {
+                        rooms.ListOfRooms[drawingId].Dequeue();
+
+                        if (rooms.ListOfRooms[drawingId].Count != 0)
+                        {
+                            Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
+
+                            drawingToUpdateMaster.MasterID = rooms.ListOfRooms[drawingId].ElementAt(0);
+
+                            drawingRepository.UpdateDrawing(drawingToUpdateMaster);
+                        }
+                        else
+                        {
+                            Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
+
+                            drawingToUpdateMaster.MasterID = null;
+
+                            drawingRepository.UpdateDrawing(drawingToUpdateMaster);
+
+                        }
+
+                    }
+
+                    // If the current user is not the master -> delete him from queue
+                    if (userId != masterId)
+                    {
+                        Array temporaryIdArray = Array.CreateInstance(typeof(string), rooms.ListOfRooms[drawingId].Count());
+
+                        temporaryIdArray = rooms.ListOfRooms[drawingId].ToArray();
+
+                        rooms.ListOfRooms[drawingId].Clear();
+
+                        foreach (string id in temporaryIdArray)
+                        {
+                            if (id != userId)
+                            {
+                                rooms.ListOfRooms[drawingId].Enqueue(id);
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+        public void SetInterface()
+        {
+
+        }
+
+        public Task Join(string groupName, string userId)
+        {
+            Singleton rooms = Singleton.GetInstance();
+
+            int drawingId = Int32.Parse(groupName);
+
+            EnqueueUser(drawingId, userId);
+
+            if(rooms.ListOfRooms[drawingId].ElementAt(0) == userId)
+            {
+                Clients.Caller.setMasterInterface();
+            }
+            else
+            {
+                Clients.Caller.setNormalInterface();
+            }
+
             return Groups.Add(Context.ConnectionId, groupName);
         }
 
-        public Task Leave(string groupName)
+        public Task Leave(string groupName, string userId)
         {
+            Singleton rooms = Singleton.GetInstance();
+
+            int drawingId = Int32.Parse(groupName);
+
+            DequeueUser(drawingId, userId);
+
             return Groups.Remove(Context.ConnectionId, groupName);
         }
+
+        //Clients.Caller.amImaster("I AM MASTER!");
+        //Clients.Caller.amImaster("I AM NOT A MASTER!");
     }
 }
