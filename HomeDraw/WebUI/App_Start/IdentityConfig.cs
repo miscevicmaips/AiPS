@@ -30,7 +30,7 @@ namespace WebUI.App_Start
 
             GlobalHost.DependencyResolver.Register(
                 typeof(SignalRHub),
-                () => new SignalRHub(new DrawingObjectRepository(), new DrawingRepository()));
+                () => new SignalRHub(new DrawingObjectRepository(), new DrawingRepository(), new AppUserRepository()));
 
             app.MapSignalR();
         }

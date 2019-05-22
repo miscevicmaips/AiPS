@@ -38,3 +38,7 @@ body {
 
 .drawingSurface {
 }
+
+.pointerEvents {
+    pointer-events: none !important;
+}

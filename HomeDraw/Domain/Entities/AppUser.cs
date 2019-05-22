@@ -20,6 +20,10 @@ namespace Domain.Entities
 
         public string LastName { get; set; }
 
+        public string GroupName { get; set; }
+
+        public string LastConnectionIdentification { get; set; }
+
         //public ICollection<Drawing> SavedDrawings { get; set; }
     }
 }

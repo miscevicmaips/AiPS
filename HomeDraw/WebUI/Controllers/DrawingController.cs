@@ -18,11 +18,13 @@ namespace WebUI.Controllers
     {
         private IDrawingObjectRepository drawingObjectRepository;
         private IDrawingRepository drawingRepository;
+        private IAppUserRepository userRepository;
 
-        public DrawingController(IDrawingObjectRepository drawingObjectRepo, IDrawingRepository drawingRepo)
+        public DrawingController(IDrawingObjectRepository drawingObjectRepo, IDrawingRepository drawingRepo, IAppUserRepository userRepo)
         {
             drawingObjectRepository = drawingObjectRepo;
             drawingRepository = drawingRepo;
+            userRepository = userRepo;
         }
 
         public ActionResult CreateDrawing(DashboardViewModel vm)
@@ -40,7 +42,7 @@ namespace WebUI.Controllers
         public ActionResult OpenDrawing(int drawingId, string drawingPassword)
         {
             Drawing drawingToOpen = drawingRepository.ReadDrawing(drawingId);
-
+          
             OpenDrawingViewModel vm = new OpenDrawingViewModel();
 
             vm.Drawing = drawingToOpen;

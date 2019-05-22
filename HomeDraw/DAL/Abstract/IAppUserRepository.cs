@@ -10,5 +10,7 @@ namespace DAL.Abstract
     public interface IAppUserRepository
     {
         AppUser ReadUser(string userId);
+        AppUser ReadUserByLastConnectionId(string connectionId);
+        void UpdateUser(AppUser user);
     }
 }

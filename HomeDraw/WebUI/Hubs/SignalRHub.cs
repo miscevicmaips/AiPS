@@ -6,6 +6,7 @@ using System.Web;
 using DAL.Abstract;
 using Domain.Entities;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.Identity;
 
 namespace WebUI.Hubs
 {
@@ -13,11 +14,13 @@ namespace WebUI.Hubs
     {
         private IDrawingObjectRepository drawingObjectRepository;
         private IDrawingRepository drawingRepository;
+        private IAppUserRepository userRepository;
 
-        public SignalRHub(IDrawingObjectRepository drawingObjectRepo, IDrawingRepository drawingRepo)
+        public SignalRHub(IDrawingObjectRepository drawingObjectRepo, IDrawingRepository drawingRepo, IAppUserRepository userRepo)
         {
             drawingObjectRepository = drawingObjectRepo;
             drawingRepository = drawingRepo;
+            userRepository = userRepo;
         }
 
         public void MoveElement(int x, int y, string elementId)
@@ -146,74 +149,77 @@ namespace WebUI.Hubs
         {
             Singleton rooms = Singleton.GetInstance();
 
-            if(rooms.ListOfRooms.ContainsKey(drawingId))
+            if (rooms.ListOfRooms.ContainsKey(drawingId))
             {
-                if(!rooms.ListOfRooms[drawingId].Contains(userId))
+                string masterId = rooms.ListOfRooms[drawingId].ElementAt(0);
+
+                // If the current user is also the master -> leave queue
+                if (userId == masterId)
                 {
-                    string masterId = rooms.ListOfRooms[drawingId].ElementAt(0);
+                    rooms.ListOfRooms[drawingId].Dequeue();
 
-                    // If the current user is also the master -> leave queue
-                    if (userId == masterId)
+                    if (rooms.ListOfRooms[drawingId].Count != 0)
                     {
-                        rooms.ListOfRooms[drawingId].Dequeue();
+                        Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
 
-                        if (rooms.ListOfRooms[drawingId].Count != 0)
-                        {
-                            Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
+                        drawingToUpdateMaster.MasterID = rooms.ListOfRooms[drawingId].ElementAt(0);
 
-                            drawingToUpdateMaster.MasterID = rooms.ListOfRooms[drawingId].ElementAt(0);
+                        drawingRepository.UpdateDrawing(drawingToUpdateMaster);
 
-                            drawingRepository.UpdateDrawing(drawingToUpdateMaster);
-                        }
-                        else
-                        {
-                            Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
+                        AppUser currentMaster = userRepository.ReadUser(drawingToUpdateMaster.MasterID);
 
-                            drawingToUpdateMaster.MasterID = null;
+                        Clients.Group(drawingId.ToString()).switchMaster(currentMaster.UserName, currentMaster.Id);
+                    }
+                    else
+                    {
+                        Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
 
-                            drawingRepository.UpdateDrawing(drawingToUpdateMaster);
+                        drawingToUpdateMaster.MasterID = null;
 
-                        }
+                        drawingRepository.UpdateDrawing(drawingToUpdateMaster);
 
                     }
 
-                    // If the current user is not the master -> delete him from queue
-                    if (userId != masterId)
+                }
+
+                // If the current user is not the master -> delete him from queue
+                if (userId != masterId)
+                {
+                    Array temporaryIdArray = Array.CreateInstance(typeof(string), rooms.ListOfRooms[drawingId].Count());
+
+                    temporaryIdArray = rooms.ListOfRooms[drawingId].ToArray();
+
+                    rooms.ListOfRooms[drawingId].Clear();
+
+                    foreach (string id in temporaryIdArray)
                     {
-                        Array temporaryIdArray = Array.CreateInstance(typeof(string), rooms.ListOfRooms[drawingId].Count());
-
-                        temporaryIdArray = rooms.ListOfRooms[drawingId].ToArray();
-
-                        rooms.ListOfRooms[drawingId].Clear();
-
-                        foreach (string id in temporaryIdArray)
+                        if (id != userId)
                         {
-                            if (id != userId)
-                            {
-                                rooms.ListOfRooms[drawingId].Enqueue(id);
-                            }
+                            rooms.ListOfRooms[drawingId].Enqueue(id);
                         }
-
                     }
+
                 }
 
             }
         }
 
-        public void SetInterface()
-        {
-
-        }
-
         public Task Join(string groupName, string userId)
         {
+            AppUser currentUser = userRepository.ReadUser(userId);
+
+            currentUser.GroupName = groupName;
+            currentUser.LastConnectionIdentification = Context.ConnectionId;
+
+            userRepository.UpdateUser(currentUser);
+
             Singleton rooms = Singleton.GetInstance();
 
             int drawingId = Int32.Parse(groupName);
 
             EnqueueUser(drawingId, userId);
 
-            if(rooms.ListOfRooms[drawingId].ElementAt(0) == userId)
+            if (rooms.ListOfRooms[drawingId].ElementAt(0) == userId)
             {
                 Clients.Caller.setMasterInterface();
             }
@@ -236,7 +242,19 @@ namespace WebUI.Hubs
             return Groups.Remove(Context.ConnectionId, groupName);
         }
 
-        //Clients.Caller.amImaster("I AM MASTER!");
-        //Clients.Caller.amImaster("I AM NOT A MASTER!");
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var disconnectedUser = userRepository.ReadUserByLastConnectionId(Context.ConnectionId);
+
+            if(disconnectedUser != null)
+            {
+                string userId = disconnectedUser.Id;
+                int drawingId = Int32.Parse(disconnectedUser.GroupName);
+
+                DequeueUser(drawingId, userId);
+            }
+
+            return base.OnDisconnected(stopCalled);
+        }
     }
 }

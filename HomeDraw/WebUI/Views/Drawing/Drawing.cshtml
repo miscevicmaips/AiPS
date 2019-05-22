@@ -73,7 +73,7 @@
                 </div>
 
                 <div id="normalInterfaceMenu" class="form-row align-items-center text-center d-none">
-                    <div class="col"><i><text style="font-weight:900;">CURRENT MASTER IS: </text></i></div>
+                    <div class="col"><i><text id="currentMasterText" style="font-weight:900;">You are currently not the master. Please wait for your turn to draw.</text></i></div>
                 </div>
             </div>
         </div>
@@ -270,20 +270,43 @@
 
             // Set interface
             draw.client.setMasterInterface = function () {
-
                 var masterInterfaceMenu = document.getElementById("masterInterfaceMenu");
+                var normalInterfaceMenu = document.getElementById("normalInterfaceMenu");
+                var drawingSurface = document.getElementById("drawingSurface");
 
                 masterInterfaceMenu.classList.remove("d-none");
                 normalInterfaceMenu.classList.add("d-none");
-
+                drawingSurface.classList.remove("pointerEvents");
             };
 
             draw.client.setNormalInterface = function () {
-                var normalInterfaceMenu = $("normalInterfaceMenu");
+                var normalInterfaceMenu = document.getElementById("normalInterfaceMenu");
+                var masterInterfaceMenu = document.getElementById("masterInterfaceMenu");
+                var drawingSurface = document.getElementById("drawingSurface");
 
                 normalInterfaceMenu.classList.remove("d-none");
                 masterInterfaceMenu.classList.add("d-none");
+                drawingSurface.classList.add("pointerEvents");
             };
+
+            draw.client.switchMaster = function (masterName, masterId) {
+                var masterInterfaceMenu = document.getElementById("masterInterfaceMenu");
+                var normalInterfaceMenu = document.getElementById("normalInterfaceMenu");
+                var drawingSurface = document.getElementById("drawingSurface");
+
+                if ('@User.Identity.GetUserId()' === masterId) {
+                    masterInterfaceMenu.classList.remove("d-none");
+                    normalInterfaceMenu.classList.add("d-none");
+                    drawingSurface.classList.remove("pointerEvents");
+                }
+
+                if ('@User.Identity.GetUserId()' !== masterId) {
+                    normalInterfaceMenu.classList.remove("d-none");
+                    masterInterfaceMenu.classList.add("d-none");
+                    drawingSurface.classList.add("pointerEvents");
+                }
+            };
+
 
             $('#undoButton').click(function () {
 
@@ -391,7 +414,7 @@
                 console.log("Left group: " + @Model.Drawing.DrawingID);
 
                 });
-            });
+             });
 
         });
     </script>
