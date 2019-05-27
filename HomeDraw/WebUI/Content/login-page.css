@@ -4,4 +4,7 @@
 
 body {
     height: 100%;
+    background-image: url('backgrounds/house1.jpg');
+    background-size:cover;
 }
+

@@ -31,8 +31,8 @@ namespace WebUI.Controllers
         {
             Drawing newDrawing = new Drawing();
 
-            newDrawing.Name = vm.DrawingName;
-            newDrawing.Password = vm.DrawingPassword;
+            newDrawing.Name = vm.createDrawingName;
+            newDrawing.Password = vm.createDrawingPassword;
 
             drawingRepository.CreateDrawing(newDrawing);
 

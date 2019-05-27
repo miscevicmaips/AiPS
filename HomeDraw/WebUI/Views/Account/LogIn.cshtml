@@ -13,36 +13,57 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <link href="~/Content/login-page.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width" />
     <title>Home Draw - Login</title>
 </head>
 <body>
+
     <div class="container-fluid h-100 p-0 m-0">
         <div class="row  h-100 p-0 m-0 align-items-center justify-content-center">
-            <div class="col-md-4 p-0 m-0 justify-content-center text-center">
-                <div class="card">
-                    <div class="card-header">
-                        Welcome to Home Draw!
+            <div id="signInMenu" class="col-md-4 p-0 m-0 justify-content-center text-center">
+                <h4 class="text-white"> Sign in to Home Draw</h4>
+
+                @using (Html.BeginForm("LogIn", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @id = "loginForm" }))
+                {
+                    <div id="usernameGroup" class="input-group mt-2 mb-3 position-absolute">
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Username", @id = "usernameInput" })
+                        <div class="input-group-append">
+                            <button id="nextButton" class="btn btn-dark" type="button"><i class="fas fa-sign-in-alt"></i></button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        @using (Html.BeginForm("LogIn", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Enter username" })
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password</label>
-                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter password" })
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-block btn-info">Login</button>
-                            </div>
-                         }
+
+                    <div id="passwordGroup" class="input-group mt-2 mb-3 position-absolute">
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "passwordInput", @type = "password" })
+
+                        <div class="input-group-append">
+                            <button id="loginButton" class="btn btn-dark" type="submit"><i class="fas fa-sign-in-alt"></i></button>
+                        </div>
                     </div>
-                </div>
+                }
+                <script>
+                    $(document).ready(function () {
+                        $("#passwordGroup").hide();
+                        $("#usernameInput").focus();
+
+                        $("#nextButton").click(function () {
+                            $("#usernameGroup").hide("fast");
+                            $("#passwordGroup").show("slow");
+                            $("#passwordInput").focus();
+                        });
+                    });
+
+                    $("#usernameInput").keypress(function (e) {
+                        if (e.keyCode == 13) {
+                            $("#nextButton").click();
+                            e.preventDefault();
+                            return false;
+                        }
+                    });
+                </script>
             </div>
         </div>
     </div>
 </body>
+
 </html>
