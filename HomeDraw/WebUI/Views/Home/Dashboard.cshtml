@@ -49,6 +49,7 @@
                 <div class="card-body">
                     @using (Html.BeginForm("JoinDrawing", "Drawing", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                         <div class="form-row align-items-center ml-5 mr-5 pl-5 pr-5">
                             <div class="col-5">
                                 @Html.TextBoxFor(m => m.joinDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", @id = "drawingNameJoinInput", autocomplete = "off" })
@@ -68,6 +69,7 @@
         </div>
 
     </div>
+
     <script>
         $(document).ready(function () {
             $("#createNewRoomButton").click(function () {

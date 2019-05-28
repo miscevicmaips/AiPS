@@ -11,6 +11,7 @@ namespace DAL.Abstract
     {
         void CreateDrawing(Drawing drawing);
         Drawing ReadDrawing(int drawingId);
+        Drawing ReadDrawingByName(string drawingName);
         void UpdateDrawing(Drawing drawing);
         void DeleteDrawing(int drawingId);
 

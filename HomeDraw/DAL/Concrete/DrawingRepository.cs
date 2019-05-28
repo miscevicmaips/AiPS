@@ -29,6 +29,14 @@ namespace DAL.Concrete
             }
         }
 
+        public Drawing ReadDrawingByName(string drawingName)
+        {
+            using (var context = new HomeDrawDbContext())
+            {
+                return context.Drawings.Where(d => d.Name == drawingName).Include(dro => dro.DrawingObjects).Include(ju => ju.JoinedUsers).FirstOrDefault();
+            }
+        }
+
         public void UpdateDrawing(Drawing drawing)
         {
             using (var context = new HomeDrawDbContext())

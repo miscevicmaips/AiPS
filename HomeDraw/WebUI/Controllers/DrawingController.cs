@@ -50,6 +50,36 @@ namespace WebUI.Controllers
             return View("Drawing", vm);
         }
 
+        public ActionResult JoinDrawing(DashboardViewModel dashboardViewModel)
+        {
+            Drawing drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.joinDrawingName);
+
+            if(drawingToJoin != null)
+            {
+                if(drawingToJoin.Password == dashboardViewModel.joinDrawingPassword)
+                {
+                    OpenDrawingViewModel vm = new OpenDrawingViewModel();
+                    vm.Drawing = drawingToJoin;
+                    return View("Drawing", vm);
+
+                }
+                else
+                {
+                    ModelState.AddModelError("RoomPasswordInvalid", "Wrong password!");
+
+                    return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("RoomMissing", "Room with name " + "'" + dashboardViewModel.joinDrawingName + "'" + " doesn't exist!");
+
+                return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
+
+            }
+
+        }
+
         public ActionResult DeleteDrawing(int drawingId)
         {
             drawingRepository.DeleteDrawing(drawingId);
