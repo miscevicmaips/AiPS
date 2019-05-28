@@ -154,6 +154,7 @@
     <Content Include="Content\icons\doorIcon.png" />
     <Content Include="Content\icons\lavatoryIcon.png" />
     <Content Include="Content\icons\refrigeratorIcon.png" />
+    <Content Include="Content\icons\settingsIcon.png" />
     <Content Include="Content\icons\showerIcon.png" />
     <Content Include="Content\icons\sinkIcon.png" />
     <Content Include="Content\icons\sofaIcon.png" />

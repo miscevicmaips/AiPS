@@ -315,7 +315,7 @@ function drawSofa(elementType, elementId) {
     var sofaMiddle = two.makeLine(0, -y / 2, 0, y / 2);
 
     var sofaLeftPillow = two.makeRoundedRectangle(-x / 3.75, y / 20, x / 3.333, y / 1.25, x / 30);
-    var sofaRightPillow = two.makeRoundedRectangle(x / 3.75, y / 20, x / 3.333, y / 1.25, x / 30)
+    var sofaRightPillow = two.makeRoundedRectangle(x / 3.75, y / 20, x / 3.333, y / 1.25, x / 30);
 
     var sofaGroup = two.makeGroup(mainSofaRoundedRect, sofaMiddle, sofaLeftPillow, sofaRightPillow, sofaTopRect, sofaLeftRect, sofaRightRect);
 
