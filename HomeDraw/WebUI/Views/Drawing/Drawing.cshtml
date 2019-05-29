@@ -17,15 +17,28 @@
     <meta name="viewport" content="width=device-width" />
     <title>Drawing @Model.Drawing.Name</title>
 </head>
+
 <body class="layoutBodySize">
 
     <div id="settingsButton" class="position-fixed settingsIcon"><i class="fas fa-cog"></i></div>
 
-        <div id="drawingMenuButton" class="position-fixed drawingMenuIcon"><i class="fas fa-pencil-ruler"></i></div>
-   
+    <div id="drawingMenuButton" class="position-fixed drawingMenuIcon"><i class="fas fa-pencil-ruler"></i></div>
 
+    <!-- Modal -->
+    <div class="settingsMenu position-fixed hidden bg-dark" id="settingsMenuModal">
+        <h3 class="mt-3 ml-3 text-white">Settings</h3>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-0 text-center bg-dark mb-3 ">
+                <h3 class="m-3 text-white">Save Image</h3>
+                <h3 class="m-3 text-white">Leave Room</h3>
+                <h3 class="m-3 text-white">Cancel</h3>
+            </div>
+        </div>
+    </div>
 
     <div class="row h-100 p-0 m-0 d-flex flex-row">
+
+
         <!-- Drawing Surface -->
         <div id="drawingMenu" class="drawingMenu">
             <div class="h-100 bg-light d-flex flex-column justify-content-around position-fixed">
@@ -79,7 +92,7 @@
             </div>
         </div>
 
-        <div id="drawingSurface" class="drawingSurface flex-grow-1">
+        <div id="drawingSurface" class="drawingSurface flex-grow-1 pr-3">
         </div>
 
 
@@ -89,6 +102,10 @@
         $(document).ready(function () {
             $("#drawingMenuButton").click(function () {
                 $("#drawingMenu").toggle("fast");
+            });
+
+            $("#settingsButton").click(function () {
+                $("#settingsMenuModal").toggle("fast");
             });
         });
     </script>
@@ -406,6 +423,7 @@
 
         });
     </script>
+
 </body>
 </html>
 
