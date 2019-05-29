@@ -1,9 +1,59 @@
 ﻿@model WebUI.Models.SettingsViewModel
 
 @{
-    ViewBag.Title = "Home Draw - Settings";
+    ViewBag.Title = "Home - Settings";
     Layout = "~/Views/Shared/_DefaultUserLayout.cshtml";
 }
 
-<h2 class="mt-5">Settings</h2>
+    <body style="background-image: url('../../Content/backgrounds/house1.jpg'); background-size:cover; background-attachment:fixed;">
 
+        <div id="initialContainer" class="container-fluid h-100 p-0 m-0">
+            <div class="row  h-100 p-0 m-0 align-items-center justify-content-center">
+                <div id="twoButtonsRow" class="col-md-4 p-0 m-0 justify-content-center text-center">
+                    <h1 class="text-white">Account Settings</h1>
+                    <p class="text-white">You can change your account password here.</p>
+                    <div>
+                        @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @id = "loginForm" }))
+                        {
+                            <div id="oldPasswordGroup" class="input-group mt-2 mb-3 position-absolute">
+                                @Html.TextBoxFor(m => m.OldPassword, new { @class = "form-control", @placeholder = "Old Password", @id = "oldPasswordInput", @type = "password" })
+                                <div class="input-group-append">
+                                    <button id="nextButton" class="btn btn-dark" type="button"><i class="fas fa-sign-in-alt"></i></button>
+                                </div>
+                            </div>
+
+                            <div id="newPasswordGroup" class="input-group mt-2 mb-3 position-absolute">
+                                @Html.TextBoxFor(m => m.NewPassword, new { @class = "form-control", @placeholder = "New Password", @id = "newPasswordInput", @type = "password" })
+
+                                <div class="input-group-append">
+                                    <button id="changePasswordButton" class="btn btn-dark" type="submit"><i class="fas fa-sign-in-alt"></i></button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $("#newPasswordGroup").hide();
+                $("#oldPasswordInput").focus();
+
+                $("#nextButton").click(function () {
+                    $("#oldPasswordGroup").hide("fast");
+                    $("#newPasswordGroup").show("slow");
+                    $("#newPasswordInput").focus();
+                });
+            });
+
+            $("#usernameInput").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    $("#nextButton").click();
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        </script>
+
+    </body>

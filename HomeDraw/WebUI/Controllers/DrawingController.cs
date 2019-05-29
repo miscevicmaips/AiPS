@@ -36,7 +36,11 @@ namespace WebUI.Controllers
 
             drawingRepository.CreateDrawing(newDrawing);
 
-            return RedirectToAction("PublicDrawings", "Home");
+            DashboardViewModel dashboardViewModel = new DashboardViewModel();
+            dashboardViewModel.joinDrawingName = newDrawing.Name;
+            dashboardViewModel.joinDrawingPassword = newDrawing.Password;
+
+            return RedirectToAction("JoinDrawing", dashboardViewModel);
         }
 
         public ActionResult OpenDrawing(int drawingId, string drawingPassword)

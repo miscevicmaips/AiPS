@@ -24,6 +24,9 @@
 
     <div id="drawingMenuButton" class="position-fixed drawingMenuIcon"><i class="fas fa-pencil-ruler"></i></div>
 
+    <div id="lockedMenuButtonIcon" class="position-fixed drawingMenuIcon hidden"><i class="fas fa-lock"></i></div>
+
+
     <!-- Modal -->
     <div class="settingsMenu position-fixed hidden bg-dark" id="settingsMenuModal">
         <h3 class="mt-3 ml-3 text-white">Settings</h3>
@@ -299,24 +302,30 @@
             draw.client.setNormalInterface = function () {
                var drawingSurface = document.getElementById("drawingSurface");
                 var drawingMenuButton = document.getElementById("drawingMenuButton");
+                var lockedMenuButton = document.getElementById("lockedMenuButtonIcon");
                  $("#drawingMenu").hide();
 
                 drawingSurface.classList.add("pointerEvents");
                 drawingMenuButton.classList.add("hidden");
+                lockedMenuButton.classList.remove("hidden");
             };
 
             draw.client.switchMaster = function (masterName, masterId) {
                 var drawingSurface = document.getElementById("drawingSurface");
                 var drawingMenuButton = document.getElementById("drawingMenuButton");
+                var lockedMenuButton = document.getElementById("lockedMenuButtonIcon");
+
 
                 if ('@User.Identity.GetUserId()' === masterId) {
                     drawingSurface.classList.remove("pointerEvents");
                     drawingMenuButton.classList.remove("hidden");
+                    lockedMenuButton.classList.add("hidden");
                 }
 
                 if ('@User.Identity.GetUserId()' !== masterId) {
                     drawingSurface.classList.add("pointerEvents");
                     drawingMenuButton.classList.add("hidden");
+                    lockedMenuButton.classList.remove("hidden");
                 }
             };
 

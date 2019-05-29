@@ -1,9 +1,61 @@
 ﻿@model WebUI.Models.SavedDrawingsViewModel
 
 @{
-    ViewBag.Title = "Home Draw - Saved Drawings";
+    ViewBag.Title = "Home - Saved Drawings";
     Layout = "~/Views/Shared/_DefaultUserLayout.cshtml";
 }
 
-<h2 class="mt-5">SavedDrawings</h2>
+<body style="background-image: url('../../Content/backgrounds/house1.jpg'); background-size:cover; background-attachment:fixed;">
 
+    <button id="scrollUpButton" class="btn btn-dark position-fixed" style="bottom:15px; right:30px;"><i class="fas fa-arrow-up"></i></button>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#scrollUpButton").hide();
+             $('html, body').animate({
+                    scrollTop: ($('#initialContainer').offset().top)
+                }, 500);
+
+            $("#scrollDownButton").click(function () {
+                $('html, body').animate({
+                    scrollTop: ($('#drawingsContainer').offset().top)
+                }, 500);
+
+                $("#scrollUpButton").fadeIn();
+            });
+
+            $("#scrollUpButton").click(function () {
+                $('html, body').animate({
+                    scrollTop: ($('#initialContainer').offset().top)
+                }, 500);
+
+                $("#scrollUpButton").fadeOut();
+            });
+        });
+    </script>
+
+    <div id="initialContainer" class="container-fluid h-100 p-0 m-0">
+        <div class="row  h-100 p-0 m-0 align-items-center justify-content-center">
+            <div id="twoButtonsRow" class="col-md-4 p-0 m-0 justify-content-center text-center">
+                <h1 class="text-white">Saved Drawings</h1>
+                <p class="text-white">You can access your saved drawings here. Tap the button to scroll. Click thumbnail to open a drawing.</p>
+                <div>
+                    <button id="scrollDownButton" class="btn btn-dark"><i class="fas fa-arrow-down"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="drawingsContainer" class="container-fluid h-100 p-0 m-0 pt-5">
+        <div class="row  h-100 p-0 m-0 justify-content-center">
+            <div id="twoButtonsRow" class="col-md-4 p-0 m-0 justify-content-center text-center">
+                <h1 class="text-white">DRAWINGS CONTAINER</h1>
+                <p class="text-white">You can access your saved drawings here. Tap the button to scroll. Click thumbnail to open a drawing.</p>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
