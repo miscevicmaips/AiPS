@@ -36,8 +36,6 @@ namespace WebUI.Hubs
             elementToUpdate.PositionTop = y;
 
             drawingObjectRepository.UpdateDrawingObject(elementToUpdate);
-
-            Clients.Group(elementToUpdate.DrawingID.ToString()).createNewMementoCallback(elementToUpdate.DrawingObjectType, elementToUpdate.DrawingObjectID, elementToUpdate.PositionTop, elementToUpdate.PositionLeft);
         }
 
         public void DrawElement(string elementType, int containedDrawingId)
@@ -116,8 +114,6 @@ namespace WebUI.Hubs
             drawingRepository.UpdateDrawing(drawing);
 
             Clients.Group(containedDrawingId.ToString()).drawElementCallback(elementType, elementId);
-
-            Clients.Group(containedDrawingId.ToString()).createNewMementoCallback(newElement.DrawingObjectType, newElement.DrawingObjectID, newElement.PositionTop, newElement.PositionLeft);
         }
 
         public void EnqueueUser(int drawingId, string userId)
