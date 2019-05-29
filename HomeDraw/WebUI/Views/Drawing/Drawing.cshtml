@@ -118,98 +118,12 @@
             $("#settingsMenuCancelButton").click(function () {
                 $("#settingsMenuModal").toggle("fast");
             });
-
-
-
-            $(function () {
-
-                var draw = $.connection.signalRHub;
-
-                var Drawing = function (elementsList) {
-                    this.elementsList = elementsList;
-                }
-
-                Drawing.prototype = {
-
-                    hydrate: function () {
-                        var memento = this;
-                        return memento;
-                    },
-
-                    dehydrate: function (memento) {
-                        var m = memento;
-                        this.elementsList = m.elementsList;
-                    }
-                }
-
-                var CareTaker = function () {
-                    this.mementos = {};
-
-                    this.add = function (key, memento) {
-                        this.mementos[key] = memento;
-                    },
-
-                        this.get = function (key) {
-                            return this.mementos[key];
-                        }
-                }
-
-                var elementsList = $("#drawingSurface").children();
-                var caretaker = new CareTaker();
-                var drawing = new Drawing(elementsList);
-                caretaker.add(0, drawing.hydrate());
-
-                draw.client.createNewMementoCallback = function (elementType, elementId, positionTop, positionLeft) {
-
-                    //var newElement = {
-                    //    type: elementType,
-                    //    id: elementId,
-                    //    top: positionTop,
-                    //    left: positionLeft
-                    //}
-
-                    //if (elementsList.length == 0) {
-                    //    elementsList.push(newElement);
-                    //} else {
-                    //    for (i = 0; i < elementsList.length; i++) {
-                    //        if (elementsList[i].id == newElement.id) {
-                    //            elementsList[i] = newElement;
-                    //            break;
-                    //        } else {
-                    //            elementsList.push(newElement);
-                    //        }
-                    //    }
-                    //}
-
-                    elementsList = $("#drawingSurface").children();
-
-                    var drawing = new Drawing(elementsList);
-                    stateCounter = Object.keys(caretaker.mementos).length;
-                    caretaker.add(stateCounter, drawing.hydrate());
-
-                }
-
-                $('#undoButton').click(function () {
-                    //stateCounter = stateCounter - 1;
-                    stateCounter = Object.keys(caretaker.mementos).length;
-                    drawing.dehydrate(caretaker.get(stateCounter));
-
-                    $("#drawingSurface").empty();
-                    var elements = drawing.elementsList;
-
-                    $.each(elements, function (index, value) {
-                        $("#drawingSurface").append(value);
-                    })
-                });
-
-            });
-
         });
     </script>
 
     <script>
         var draw = $.connection.signalRHub;
-        // Reconstruct a drawing
+
         function reconstructDrawing(data) {
             data.forEach(function (item, index) {
                 var elementType = "";
@@ -262,7 +176,6 @@
             });
         }
 
-        // Get all objects needed to reconstruct a drawing
         $.ajax({
             url: '/Drawing/GetDrawingObjects',
             type: 'GET',
@@ -277,13 +190,45 @@
         });
     </script>
 
-    <script>
-
-    </script>
-
 
     <script>
+        var Originator = function (elementsList) {
+            this.elementsList = elementsList;
+        }
+
+        Originator.prototype = {
+            hydrate: function () {
+                var memento = this;
+                return memento;
+            },
+
+            dehydrate: function (memento) {
+                var m = memento;
+                this.elementsList = m.elementsList;
+            }
+        }
+
+        var CareTaker = function () {
+            this.mementos = {};
+
+            this.add = function (key, memento) {
+                this.mementos[key] = memento;
+            },
+
+                this.get = function (key) {
+                return this.mementos[key];
+                }
+        }
+
+        var stateCounter = 0;
+        var eleList = {};
+        var originator = new Originator(eleList);
+        var caretaker = new CareTaker();
+
+        caretaker.add(stateCounter, originator.hydrate());
+
         $(function () {
+
             var draw = $.connection.signalRHub;
 
             /* Callback to create an element! */
@@ -335,6 +280,14 @@
                 if (elementType == 'tableElement') {
                     drawTable(elementType, elementId);
                 }
+
+                var listOfElements = $("#drawingSurface").children();
+
+                var originator = new Originator(listOfElements);
+
+                stateCounter++;
+                caretaker.add(stateCounter, originator.hydrate());
+
             };
 
             // Set interface
@@ -376,10 +329,34 @@
                 }
             };
 
+
+            $('#undoButton').click(function () {
+
+                if (stateCounter == 0) {
+                    originator.dehydrate(caretaker.get(stateCounter));
+                    stateCounter = 0;
+                }
+
+                var drawingSurface = $("#drawingSurface");
+
+                drawingSurface.empty();
+
+                if (stateCounter > 0) {
+                    stateCounter--;
+
+                    originator.dehydrate(caretaker.get(stateCounter));
+                    var elements = originator.elementsList;
+
+                    $.each(elements, function (index, value) {
+                        drawingSurface.append(value);
+                    })
+                }
+
+            });
+
             /* Callback to move an element! */
             draw.client.moveElementCallback = function (x, y, elementId) {
                 $("#" + elementId).css({ left: x, top: y });
-
             };
 
             $.connection.hub.start().done(function () {
