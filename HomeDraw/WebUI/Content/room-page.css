@@ -33,6 +33,15 @@ body {
     z-index:5;
 }
 
+.settingsMenuItem:hover {
+    color: darkgray !important;
+    font-size:1.7rem;
+    cursor: pointer;
+    transition: 0.3s;
+    outline:none;
+    text-decoration:none;
+}
+
 .iconButton {
     color: black;
     max-width:2.8em;
