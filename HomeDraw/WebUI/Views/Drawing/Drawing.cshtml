@@ -185,14 +185,19 @@
                 $('#undoButton').click(function () {
                     //stateCounter = stateCounter - 1;
                     stateCounter = Object.keys(caretaker.mementos).length - 2;
-                    drawing.dehydrate(caretaker.get(stateCounter));
+                    
+                    if (stateCounter < 1) {
+                        console.log("No UNDO actions available.");
+                    } else {
+                        drawing.dehydrate(caretaker.get(stateCounter));
 
-                    $("#drawingSurface").empty();
-                    var elements = drawing.elementsList;
+                        $("#drawingSurface").empty();
+                        var elements = drawing.elementsList;
 
-                    $.each(elements, function (index, value) {
-                        $("#drawingSurface").append(value);
-                    })
+                        $.each(elements, function (index, value) {
+                            reconstructDrawingObject(draw, value.drawingElementType, value.id, value.top, value.left);
+                        })
+                    }
                 });
 
             });
