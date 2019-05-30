@@ -52,10 +52,11 @@ function reconstructDrawingObject(draw, elementType, elementId, positionTop, pos
 function createElement(draw, elementType, elementId, positionTop, positionLeft) {
     var element = $('<div></div>', {
         style: 'width: ' + 100 + 'px; height: ' + 100 + 'px;',
-        id: elementType + elementId
+        id: elementType + elementId,
     });
 
     element.css("position", "absolute");
+    element.attr("drawingElementType", elementType);
 
     if (positionTop !== null && positionLeft !== null) {
         element.css("top", positionTop);

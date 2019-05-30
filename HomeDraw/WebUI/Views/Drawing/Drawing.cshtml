@@ -106,6 +106,37 @@
     </div>
 
     <script>
+        var Drawing = function (elementsList) {
+            this.elementsList = elementsList;
+        }
+
+        Drawing.prototype = {
+
+            hydrate: function () {
+                var memento = JSON.stringify(this);
+                return memento;
+            },
+
+            dehydrate: function (memento) {
+                var m = JSON.parse(memento);
+                this.elementsList = m.elementsList;
+            }
+        }
+
+        var CareTaker = function () {
+            this.mementos = {};
+
+            this.add = function (key, memento) {
+                this.mementos[key] = memento;
+            },
+
+                this.get = function (key) {
+                    return this.mementos[key];
+                }
+        }
+    </script>
+
+    <script>
         $(document).ready(function () {
             $("#drawingMenuButton").click(function () {
                 $("#drawingMenu").toggle("fast");
@@ -122,37 +153,7 @@
             $(function () {
 
                 var draw = $.connection.signalRHub;
-
-                var Drawing = function (elementsList) {
-                    this.elementsList = elementsList;
-                }
-
-                Drawing.prototype = {
-
-                    hydrate: function () {
-                        var memento = JSON.stringify(this);
-                        return memento;
-                    },
-
-                    dehydrate: function (memento) {
-                        var m = JSON.parse(memento);
-                        this.elementsList = m.elementsList;
-                    }
-                }
-
-                var CareTaker = function () {
-                    this.mementos = {};
-
-                    this.add = function (key, memento) {
-                        this.mementos[key] = memento;
-                    },
-
-                        this.get = function (key) {
-                            return this.mementos[key];
-                        }
-                }
-
-                //var elementsList1 = $("#drawingSurface").children();
+                
                 var elementsList = new Array();
                 var drawing = new Drawing(elementsList);
                 var caretaker = new CareTaker();
@@ -160,29 +161,22 @@
 
                 draw.client.createNewMementoCallback = function (elementType, elementId, positionTop, positionLeft) {
 
-                    var newElement = {
-                        type: elementType,
-                        id: elementId,
-                        top: positionTop,
-                        left: positionLeft
-                    }
+                    var jqueryElementsList = $("#drawingSurface").children();
+                    var jqueryElementsArray = new Array();
 
-                    if (elementsList.length == 0) {
-                        elementsList.push(newElement);
-                    } else {
-                        for (i = 0; i < elementsList.length; i++) {
-                            if (elementsList[i].id == newElement.id) {
-                                elementsList[i] = newElement;
-                                break;
-                            } else {
-                                elementsList.push(newElement);
-                            }
+
+                    $.each(jqueryElementsList, function (index, value) {
+                        var newElementFromJquery = {
+                            drawingElementType: $(this).attr('drawingelementtype'),
+                            id: value.id,
+                            top: value.offsetTop,
+                            left: value.offsetLeft
                         }
-                    }
 
-                    //var elementsList2 = $("#drawingSurface").children();
+                        jqueryElementsArray.push(newElementFromJquery);
+                    })
 
-                    drawing.elementsList = elementsList;
+                    drawing.elementsList = jqueryElementsArray;
                     stateCounter = Object.keys(caretaker.mementos).length;
                     caretaker.add(stateCounter, drawing.hydrate());
 
