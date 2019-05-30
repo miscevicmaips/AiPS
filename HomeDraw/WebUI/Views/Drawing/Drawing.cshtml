@@ -126,13 +126,17 @@
         var CareTaker = function () {
             this.mementos = {};
 
+            this.get = function (key) {
+                return this.mementos[key];
+            };
+
             this.add = function (key, memento) {
                 this.mementos[key] = memento;
-            },
+            };
 
-                this.get = function (key) {
-                    return this.mementos[key];
-                }
+            this.remove = function (key) {
+                delete this.mementos[key];
+            };
         }
 
         var elementsList = new Array();
@@ -143,9 +147,9 @@
 
     <script>
         var draw = $.connection.signalRHub;
-
         function reconstructDrawing(data) {
             data.forEach(function (item, index) {
+
                 var elementType = "";
 
                 if (item.DrawingObjectType === 0) {
@@ -266,15 +270,92 @@
                 })
 
                 drawing.elementsList = newElementsListJSON;
+                caretaker.add(1, drawing.hydrate());
 
-                stateCounter = Object.keys(caretaker.mementos).length;
-                caretaker.add(stateCounter, drawing.hydrate());
-               
+                var currentCounter = Object.keys(caretaker.mementos).length;
+                var nextCounter = currentCounter + 1;
+                var beforeCounter = currentCounter - 1;
+
+
             },
             error: function (error) {
                 console.log("Error handling AJAX request to GetDrawingObjects method.");
             }
         });
+    </script>
+
+    <script>
+        $(function () {
+            var draw = $.connection.signalRHub;
+
+            draw.client.createNewMementoCallback = function (elementType, elementId, positionTop, positionLeft) {
+
+                var jqueryElementsList = $("#drawingSurface").children();
+                var jqueryElementsArray = new Array();
+
+
+                $.each(jqueryElementsList, function (index, value) {
+                    var newElementFromJquery = {
+                        drawingElementType: $(this).attr('drawingelementtype'),
+                        id: value.id,
+                        top: value.offsetTop,
+                        left: value.offsetLeft
+                    }
+
+                    jqueryElementsArray.push(newElementFromJquery);
+                })
+
+                var currentCounter = Object.keys(caretaker.mementos).length;
+                var nextCounter = currentCounter + 1;
+                var beforeCounter = currentCounter - 1;
+
+                drawing.elementsList = jqueryElementsArray;
+                caretaker.add(nextCounter, drawing.hydrate());
+
+                currentCounter = Object.keys(caretaker.mementos).length;
+                nextCounter = currentCounter + 1;
+                beforeCounter = currentCounter - 1;
+
+            }
+        });
+    </script>
+
+    <script>
+            $('#undoButton').click(function () {
+                var currentCounter = Object.keys(caretaker.mementos).length;
+                var nextCounter = currentCounter + 1;
+                var beforeCounter = currentCounter - 1;
+
+                if (beforeCounter === 0) {
+                    console.log("NO MORE UNDO'S REMAINING");
+                } else {
+                    drawing.dehydrate(caretaker.get(beforeCounter));
+                    caretaker.remove(currentCounter);
+
+                    currentCounter = currentCounter - 1;
+                    nextCounter = currentCounter + 1;
+                    beforeCounter = currentCounter - 1;
+
+                    console.log("REMAINING UNDO'S: " + beforeCounter);
+
+                    $("#drawingSurface").empty();   
+                    
+                    var elements = drawing.elementsList;
+
+                    $.each(elements, function (index, value) {
+
+                        var valueElementId = value.id;
+                        var valueElementType = value.drawingElementType;
+
+                        var valueElementIdLength = valueElementId.length;
+                        var valueElementTypeLength = valueElementType.length;
+
+                        var normalId = valueElementId.slice(valueElementTypeLength, valueElementIdLength);
+
+                        reconstructDrawingObject(draw, value.drawingElementType, normalId, value.top, value.left);
+                    });
+                }
+            });
     </script>
 
     <script>
@@ -289,52 +370,6 @@
 
             $("#settingsMenuCancelButton").click(function () {
                 $("#settingsMenuModal").toggle("fast");
-            });
-
-            $(function () {
-
-                var draw = $.connection.signalRHub;
-
-                draw.client.createNewMementoCallback = function (elementType, elementId, positionTop, positionLeft) {
-
-                    var jqueryElementsList = $("#drawingSurface").children();
-                    var jqueryElementsArray = new Array();
-
-
-                    $.each(jqueryElementsList, function (index, value) {
-                        var newElementFromJquery = {
-                            drawingElementType: $(this).attr('drawingelementtype'),
-                            id: value.id,
-                            top: value.offsetTop,
-                            left: value.offsetLeft
-                        }
-
-                        jqueryElementsArray.push(newElementFromJquery);
-                    })
-
-                    drawing.elementsList = jqueryElementsArray;
-                    stateCounter = Object.keys(caretaker.mementos).length;
-                    caretaker.add(stateCounter, drawing.hydrate());
-
-                }
-
-                $('#undoButton').click(function () {
-                    stateCounter = Object.keys(caretaker.mementos).length - 2;
-
-                    if (stateCounter < 0) {
-                        console.log("No UNDO actions available.");
-                    } else {
-                        drawing.dehydrate(caretaker.get(stateCounter));
-
-                        $("#drawingSurface").empty();
-                        var elements = drawing.elementsList;
-
-                        $.each(elements, function (index, value) {
-                            reconstructDrawingObject(draw, value.drawingElementType, value.id, value.top, value.left);
-                        })
-                    }
-                });
-
             });
         });
     </script>
