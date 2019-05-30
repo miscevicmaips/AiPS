@@ -134,74 +134,11 @@
                     return this.mementos[key];
                 }
         }
-    </script>
 
-    <script>
-        $(document).ready(function () {
-            $("#drawingMenuButton").click(function () {
-                $("#drawingMenu").toggle("fast");
-            });
+        var elementsList = new Array();
+        var drawing = new Drawing(elementsList);
+        var caretaker = new CareTaker();
 
-            $("#settingsButton").click(function () {
-                $("#settingsMenuModal").toggle("fast");
-            });
-
-            $("#settingsMenuCancelButton").click(function () {
-                $("#settingsMenuModal").toggle("fast");
-            });
-
-            $(function () {
-
-                var draw = $.connection.signalRHub;
-                
-                var elementsList = new Array();
-                var drawing = new Drawing(elementsList);
-                var caretaker = new CareTaker();
-                caretaker.add(0, drawing.hydrate());
-
-                draw.client.createNewMementoCallback = function (elementType, elementId, positionTop, positionLeft) {
-
-                    var jqueryElementsList = $("#drawingSurface").children();
-                    var jqueryElementsArray = new Array();
-
-
-                    $.each(jqueryElementsList, function (index, value) {
-                        var newElementFromJquery = {
-                            drawingElementType: $(this).attr('drawingelementtype'),
-                            id: value.id,
-                            top: value.offsetTop,
-                            left: value.offsetLeft
-                        }
-
-                        jqueryElementsArray.push(newElementFromJquery);
-                    })
-
-                    drawing.elementsList = jqueryElementsArray;
-                    stateCounter = Object.keys(caretaker.mementos).length;
-                    caretaker.add(stateCounter, drawing.hydrate());
-
-                }
-
-                $('#undoButton').click(function () {
-                    //stateCounter = stateCounter - 1;
-                    stateCounter = Object.keys(caretaker.mementos).length - 2;
-                    
-                    if (stateCounter < 1) {
-                        console.log("No UNDO actions available.");
-                    } else {
-                        drawing.dehydrate(caretaker.get(stateCounter));
-
-                        $("#drawingSurface").empty();
-                        var elements = drawing.elementsList;
-
-                        $.each(elements, function (index, value) {
-                            reconstructDrawingObject(draw, value.drawingElementType, value.id, value.top, value.left);
-                        })
-                    }
-                });
-
-            });
-        });
     </script>
 
     <script>
@@ -266,10 +203,139 @@
             data: { drawingId: @Model.Drawing.DrawingID },
             success: function (result) {
                 reconstructDrawing(result);
+
+                // create initial memento
+                var jqueryElementsArrayJSON = result;
+                var newElementsListJSON = new Array();
+
+                $.each(jqueryElementsArrayJSON, function (index, item) {
+                    var elementType = "";
+
+                    if (item.DrawingObjectType === 0) {
+                        elementType = 'bathElement';
+                    }
+
+                    if (item.DrawingObjectType === 1) {
+                        elementType = 'lavatoryElement';
+                    }
+
+                    if (item.DrawingObjectType === 2) {
+                        elementType = 'showerElement';
+                    }
+
+                    if (item.DrawingObjectType === 3) {
+                        elementType = 'doorElement';
+                    }
+
+                    if (item.DrawingObjectType === 4) {
+                        elementType = 'wallElement';
+                    }
+
+                    if (item.DrawingObjectType === 5) {
+                        elementType = 'windowElement';
+                    }
+
+                    if (item.DrawingObjectType === 6) {
+                        elementType = 'refrigeratorElement';
+                    }
+
+                    if (item.DrawingObjectType === 7) {
+                        elementType = 'sinkElement';
+                    }
+
+                    if (item.DrawingObjectType === 8) {
+                        elementType = 'stoveElement';
+                    }
+
+                    if (item.DrawingObjectType === 9) {
+                        elementType = 'sofaElement';
+                    }
+
+                    if (item.DrawingObjectType === 10) {
+                        elementType = 'tableElement';
+                    }
+
+                    var newElementFromArrayJSON = {
+                        drawingElementType: elementType,
+                        id: elementType + item.DrawingObjectID,
+                        top: item.PositionTop,
+                        left: item.PositionLeft
+                    }
+
+                    newElementsListJSON.push(newElementFromArrayJSON);
+                })
+
+                drawing.elementsList = newElementsListJSON;
+
+                stateCounter = Object.keys(caretaker.mementos).length;
+                caretaker.add(stateCounter, drawing.hydrate());
+               
             },
             error: function (error) {
                 console.log("Error handling AJAX request to GetDrawingObjects method.");
             }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#drawingMenuButton").click(function () {
+                $("#drawingMenu").toggle("fast");
+            });
+
+            $("#settingsButton").click(function () {
+                $("#settingsMenuModal").toggle("fast");
+            });
+
+            $("#settingsMenuCancelButton").click(function () {
+                $("#settingsMenuModal").toggle("fast");
+            });
+
+            $(function () {
+
+                var draw = $.connection.signalRHub;
+
+                draw.client.createNewMementoCallback = function (elementType, elementId, positionTop, positionLeft) {
+
+                    var jqueryElementsList = $("#drawingSurface").children();
+                    var jqueryElementsArray = new Array();
+
+
+                    $.each(jqueryElementsList, function (index, value) {
+                        var newElementFromJquery = {
+                            drawingElementType: $(this).attr('drawingelementtype'),
+                            id: value.id,
+                            top: value.offsetTop,
+                            left: value.offsetLeft
+                        }
+
+                        jqueryElementsArray.push(newElementFromJquery);
+                    })
+
+                    drawing.elementsList = jqueryElementsArray;
+                    stateCounter = Object.keys(caretaker.mementos).length;
+                    caretaker.add(stateCounter, drawing.hydrate());
+
+                }
+
+                $('#undoButton').click(function () {
+                    stateCounter = Object.keys(caretaker.mementos).length - 2;
+
+                    if (stateCounter < 0) {
+                        console.log("No UNDO actions available.");
+                    } else {
+                        drawing.dehydrate(caretaker.get(stateCounter));
+
+                        $("#drawingSurface").empty();
+                        var elements = drawing.elementsList;
+
+                        $.each(elements, function (index, value) {
+                            reconstructDrawingObject(draw, value.drawingElementType, value.id, value.top, value.left);
+                        })
+                    }
+                });
+
+            });
         });
     </script>
 
@@ -368,7 +434,7 @@
                     lockedMenuButton.classList.remove("hidden");
                 }
             };
-            
+
             /* Callback to move an element! */
             draw.client.moveElementCallback = function (x, y, elementId) {
                 $("#" + elementId).css({ left: x, top: y });
