@@ -33,7 +33,8 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content border-0 text-center bg-dark mb-3 ">
                 <h3 class="m-3">
-                    @Html.ActionLink("Save Image", "SaveDrawing", "Drawing", null, new { @class = "text-white settingsMenuItem", @id = "settingsMenuLeaveRoomButton" })
+                    <a href="#" id="saveImageButton" class="text-white settingsMenuItem">Save Image</a>
+                  @*  @Html.ActionLink("Save Image", "ExportDrawingToPDF", "Drawing", null, new { @class = "text-white settingsMenuItem", @id = "settingsMenuLeaveRoomButton" })*@
                 </h3>
                 <h3 class="m-3">
                     @Html.ActionLink("Leave Room", "Dashboard", "Home", null, new { @class = "text-white settingsMenuItem", @id = "settingsMenuLeaveRoomButton" })
@@ -98,7 +99,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div id="drawingSurface" class="drawingSurface flex-grow-1 pr-3">
         </div>
 
@@ -281,6 +282,25 @@
             error: function (error) {
                 console.log("Error handling AJAX request to GetDrawingObjects method.");
             }
+        });
+    </script>
+
+    <script>
+        $('#saveImageButton').click(function () {
+
+            var htmlString = $("#drawingSurface")[0].outerHTML;
+
+        $.ajax({
+            url: '/Drawing/ExportDrawingToPDF',
+            type: 'POST',
+            data: { 'strategyFilter': 'exportToPDF' , 'htmlString': htmlString },
+            success: function () {
+                console.log("IMAGE SAVED AS A PDF");
+            },
+            error: function (error) {
+                console.log("Error handling AJAX request to ExportDrawingToPDF method.");
+            }
+        });
         });
     </script>
 

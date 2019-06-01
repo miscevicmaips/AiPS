@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using WebUI.Infrastructure;
 using WebUI.Models;
 using Newtonsoft.Json;
+using WebUI.StrategyService;
+using System.IO;
 
 namespace WebUI.Controllers
 {
@@ -46,7 +48,7 @@ namespace WebUI.Controllers
         public ActionResult OpenDrawing(int drawingId, string drawingPassword)
         {
             Drawing drawingToOpen = drawingRepository.ReadDrawing(drawingId);
-          
+
             OpenDrawingViewModel vm = new OpenDrawingViewModel();
 
             vm.Drawing = drawingToOpen;
@@ -58,9 +60,9 @@ namespace WebUI.Controllers
         {
             Drawing drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.joinDrawingName);
 
-            if(drawingToJoin != null)
+            if (drawingToJoin != null)
             {
-                if(drawingToJoin.Password == dashboardViewModel.joinDrawingPassword)
+                if (drawingToJoin.Password == dashboardViewModel.joinDrawingPassword)
                 {
                     OpenDrawingViewModel vm = new OpenDrawingViewModel();
                     vm.Drawing = drawingToJoin;
@@ -100,7 +102,7 @@ namespace WebUI.Controllers
 
             var drawingObjects = drawing.DrawingObjects;
 
-            foreach(var drawingObject in drawingObjects)
+            foreach (var drawingObject in drawingObjects)
             {
                 DrawingObject newObject = new DrawingObject();
                 newObject.DrawingObjectID = drawingObject.DrawingObjectID;
@@ -111,6 +113,26 @@ namespace WebUI.Controllers
             }
 
             return Json(newObjects, JsonRequestBehavior.AllowGet);
+        }
+
+        [ValidateInput(false)]
+        public ActionResult ExportDrawingToPDF(string strategyFilter, string htmlString)
+        {
+            Context strategyContext;
+
+            if (strategyFilter == "exportToPDF")
+            {
+                strategyContext = new Context(new ConcreteStrategyPDF());
+                strategyContext.ContextInterface(htmlString);
+            }
+
+            if (strategyFilter == "exportToJPG")
+            {
+                strategyContext = new Context(new ConcreteStrategyJPG());
+                strategyContext.ContextInterface(htmlString);
+            }
+
+            return RedirectToAction("Dashboard", "Home", JsonRequestBehavior.AllowGet);
         }
     }
 }
