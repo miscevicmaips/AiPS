@@ -10,10 +10,9 @@ namespace WebUI.StrategyService
 {
     public class ConcreteStrategyPDF : Strategy
     {
-        public void ExportDrawing(string html)
+        public Byte[] ExportDrawing(string html)
         {
             Byte[] res = null;
-
 
             string htmlString = html;
 
@@ -37,10 +36,7 @@ namespace WebUI.StrategyService
                 doc.Close();
             }
 
-            using (var fs = new FileStream(@"D:\ConcreteStrategyExportedPDF.pdf", FileMode.Create, FileAccess.Write))
-            {
-                fs.Write(res, 0, res.Length);
-            }
+            return res;
 
         }
     }

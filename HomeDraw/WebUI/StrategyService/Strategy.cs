@@ -8,6 +8,6 @@ namespace WebUI.StrategyService
 {
     public interface Strategy
     {
-        void ExportDrawing(string html);
+        Byte[] ExportDrawing(string html);
     }
 }

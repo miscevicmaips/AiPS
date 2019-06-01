@@ -116,23 +116,38 @@ namespace WebUI.Controllers
         }
 
         [ValidateInput(false)]
-        public ActionResult ExportDrawingToPDF(string strategyFilter, string htmlString)
+        public JsonResult ExportDrawingToPDF(string fileExtension, string htmlString)
         {
             Context strategyContext;
 
-            if (strategyFilter == "exportToPDF")
+            Byte[] file = null;
+            string fileName = "";
+
+            if (fileExtension == ".pdf")
             {
                 strategyContext = new Context(new ConcreteStrategyPDF());
-                strategyContext.ContextInterface(htmlString);
+                file = strategyContext.ContextInterface(htmlString);
+                fileName = "HomeDrawExportPDF.pdf";
             }
 
-            if (strategyFilter == "exportToJPG")
+            if (fileExtension == ".png")
             {
-                strategyContext = new Context(new ConcreteStrategyJPG());
-                strategyContext.ContextInterface(htmlString);
+                strategyContext = new Context(new ConcreteStrategyPNG());
+                file = strategyContext.ContextInterface(htmlString);
+                fileName = "HomeDrawExportPNG.png";
             }
 
-            return RedirectToAction("Dashboard", "Home", JsonRequestBehavior.AllowGet);
+            string fileHandle = Guid.NewGuid().ToString();
+
+            TempData[fileHandle] = file;
+
+            JsonResult jsonFileResult = new JsonResult();
+
+            return new JsonResult()
+            {
+                Data = new { FileGuid = fileHandle, FileName = fileName }
+            };
         }
+
     }
 }

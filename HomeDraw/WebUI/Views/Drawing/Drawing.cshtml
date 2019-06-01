@@ -33,9 +33,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content border-0 text-center bg-dark mb-3 ">
                 <h3 class="m-3">
-                    <a href="#" id="saveImageButton" class="text-white settingsMenuItem">Save Image</a>
-                  @*  @Html.ActionLink("Save Image", "ExportDrawingToPDF", "Drawing", null, new { @class = "text-white settingsMenuItem", @id = "settingsMenuLeaveRoomButton" })*@
+                    <a href="#" id="saveImageButtonPDF" class="text-white settingsMenuItem">Save as PDF</a>
                 </h3>
+
+                <h3 class="m-3">
+                    <a href="#" id="saveImageButtonPNG" class="text-white settingsMenuItem">Save as PNG</a>
+                </h3>
+
                 <h3 class="m-3">
                     @Html.ActionLink("Leave Room", "Dashboard", "Home", null, new { @class = "text-white settingsMenuItem", @id = "settingsMenuLeaveRoomButton" })
                 </h3>
@@ -99,7 +103,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="drawingSurface" class="drawingSurface flex-grow-1 pr-3">
         </div>
 
@@ -286,21 +290,46 @@
     </script>
 
     <script>
-        $('#saveImageButton').click(function () {
+        $('#saveImageButtonPDF').click(function () {
+
+            var fileExtension = ".pdf";
 
             var htmlString = $("#drawingSurface")[0].outerHTML;
 
-        $.ajax({
-            url: '/Drawing/ExportDrawingToPDF',
-            type: 'POST',
-            data: { 'strategyFilter': 'exportToPDF' , 'htmlString': htmlString },
-            success: function () {
-                console.log("IMAGE SAVED AS A PDF");
-            },
-            error: function (error) {
-                console.log("Error handling AJAX request to ExportDrawingToPDF method.");
-            }
+            $.ajax({
+                url: '/Drawing/ExportDrawingToPDF',
+                type: 'POST',
+                data: { 'fileExtension': fileExtension, 'htmlString': htmlString },
+                success: function (data) {
+                    console.log("File downloaded successfully.");
+                    var response = data;
+                    window.location = '/File/GetFile?fileGuid=' + response.FileGuid + '&filename=' + response.FileName;
+                },
+                error: function (error) {
+                    console.log("Error handling AJAX request to ExportDrawingToPDF method.");
+                }
+            });
         });
+
+         $('#saveImageButtonPNG').click(function () {
+
+            var fileExtension = ".png";
+
+            var htmlString = $("#drawingSurface")[0].outerHTML;
+
+            $.ajax({
+                url: '/Drawing/ExportDrawingToPDF',
+                type: 'POST',
+                data: { 'fileExtension': fileExtension, 'htmlString': htmlString },
+                success: function (data) {
+                    console.log("File downloaded successfully.");
+                    var response = data;
+                    window.location = '/File/GetFile?fileGuid=' + response.FileGuid + '&filename=' + response.FileName;
+                },
+                error: function (error) {
+                    console.log("Error handling AJAX request to ExportDrawingToPDF method.");
+                }
+            });
         });
     </script>
 
@@ -341,41 +370,41 @@
     </script>
 
     <script>
-            $('#undoButton').click(function () {
-                var currentCounter = Object.keys(caretaker.mementos).length;
-                var nextCounter = currentCounter + 1;
-                var beforeCounter = currentCounter - 1;
+        $('#undoButton').click(function () {
+            var currentCounter = Object.keys(caretaker.mementos).length;
+            var nextCounter = currentCounter + 1;
+            var beforeCounter = currentCounter - 1;
 
-                if (beforeCounter === 0) {
-                    console.log("NO MORE UNDO'S REMAINING");
-                } else {
-                    drawing.dehydrate(caretaker.get(beforeCounter));
-                    caretaker.remove(currentCounter);
+            if (beforeCounter === 0) {
+                console.log("NO MORE UNDO'S REMAINING");
+            } else {
+                drawing.dehydrate(caretaker.get(beforeCounter));
+                caretaker.remove(currentCounter);
 
-                    currentCounter = currentCounter - 1;
-                    nextCounter = currentCounter + 1;
-                    beforeCounter = currentCounter - 1;
+                currentCounter = currentCounter - 1;
+                nextCounter = currentCounter + 1;
+                beforeCounter = currentCounter - 1;
 
-                    console.log("REMAINING UNDO'S: " + beforeCounter);
+                console.log("REMAINING UNDO'S: " + beforeCounter);
 
-                    $("#drawingSurface").empty();   
-                    
-                    var elements = drawing.elementsList;
+                $("#drawingSurface").empty();
 
-                    $.each(elements, function (index, value) {
+                var elements = drawing.elementsList;
 
-                        var valueElementId = value.id;
-                        var valueElementType = value.drawingElementType;
+                $.each(elements, function (index, value) {
 
-                        var valueElementIdLength = valueElementId.length;
-                        var valueElementTypeLength = valueElementType.length;
+                    var valueElementId = value.id;
+                    var valueElementType = value.drawingElementType;
 
-                        var normalId = valueElementId.slice(valueElementTypeLength, valueElementIdLength);
+                    var valueElementIdLength = valueElementId.length;
+                    var valueElementTypeLength = valueElementType.length;
 
-                        reconstructDrawingObject(draw, value.drawingElementType, normalId, value.top, value.left);
-                    });
-                }
-            });
+                    var normalId = valueElementId.slice(valueElementTypeLength, valueElementIdLength);
+
+                    reconstructDrawingObject(draw, value.drawingElementType, normalId, value.top, value.left);
+                });
+            }
+        });
     </script>
 
     <script>

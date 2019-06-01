@@ -15,9 +15,9 @@ namespace WebUI.StrategyService
             this._strategy = strategy;
         }
 
-        public void ContextInterface(string html)
+        public Byte[] ContextInterface(string html)
         {
-            _strategy.ExportDrawing(html);
+            return _strategy.ExportDrawing(html);
         }
     }
 }
