@@ -74,6 +74,28 @@ namespace WebUI.Controllers
             return View("~/Views/Account/Login.cshtml", vm);
         }
 
+        [HttpPost]
+        public ActionResult ChangePassword(SettingsViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = UserManager.FindById(User.Identity.GetUserId());
+                IdentityResult result = UserManager.ChangePassword(user.Id, vm.OldPassword, vm.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("LogOut", "Account");
+                }
+
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+
+            return View(vm);
+        }
+
         public ActionResult LogOut()
         {
             AuthManager.SignOut();
