@@ -32,10 +32,10 @@ namespace WebUI.Hubs
                         queue.Enqueue(drawing.MasterID);
                     }
 
-                    foreach (AppUser user in drawing.JoinedUsers)
-                    {
-                        queue.Enqueue(user.Id);
-                    }
+                    //foreach (AppUser user in drawing.JoinedUsers)
+                    //{
+                    //    queue.Enqueue(user.Id);
+                    //}
 
                     Rooms.Add(drawing.DrawingID, queue);
                 }

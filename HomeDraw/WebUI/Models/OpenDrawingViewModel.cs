@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTO;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace WebUI.Models
 {
     public class OpenDrawingViewModel
     {
-        public Drawing Drawing { get; set; }
+        public DrawingDTO Drawing { get; set; }
 
         public string SavedDrawingName { get; set; }
     }

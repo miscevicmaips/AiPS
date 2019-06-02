@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
+using Domain.DTO;
 
 namespace DAL.Abstract
 {
     public interface IDrawingRepository
     {
-        void CreateDrawing(Drawing drawing);
-        Drawing ReadDrawing(int drawingId);
-        Drawing ReadDrawingByName(string drawingName);
-        void UpdateDrawing(Drawing drawing);
+        int CreateDrawing(DrawingDTO drawingDTO);
+        DrawingDTO ReadDrawing(int drawingId);
+        DrawingDTO ReadDrawingByName(string drawingName);
+        void UpdateDrawing(DrawingDTO drawingDTO);
         void DeleteDrawing(int drawingId);
 
         Dictionary<int, Queue<string>> CreateRooms();
 
-        IEnumerable<Drawing> GetAllDrawings();
+        IEnumerable<DrawingDTO> GetAllDrawings();
     }
 }

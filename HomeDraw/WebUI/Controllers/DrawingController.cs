@@ -12,6 +12,7 @@ using WebUI.Models;
 using Newtonsoft.Json;
 using WebUI.StrategyService;
 using System.IO;
+using Domain.DTO;
 
 namespace WebUI.Controllers
 {
@@ -31,7 +32,7 @@ namespace WebUI.Controllers
 
         public ActionResult CreateDrawing(DashboardViewModel vm)
         {
-            Drawing newDrawing = new Drawing();
+            DrawingDTO newDrawing = new DrawingDTO();
 
             newDrawing.Name = vm.createDrawingName;
             newDrawing.Password = vm.createDrawingPassword;
@@ -47,7 +48,7 @@ namespace WebUI.Controllers
 
         public ActionResult OpenDrawing(int drawingId, string drawingPassword)
         {
-            Drawing drawingToOpen = drawingRepository.ReadDrawing(drawingId);
+            DrawingDTO drawingToOpen = drawingRepository.ReadDrawing(drawingId);
 
             OpenDrawingViewModel vm = new OpenDrawingViewModel();
 
@@ -58,7 +59,7 @@ namespace WebUI.Controllers
 
         public ActionResult JoinDrawing(DashboardViewModel dashboardViewModel)
         {
-            Drawing drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.joinDrawingName);
+            DrawingDTO drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.joinDrawingName);
 
             if (drawingToJoin != null)
             {
@@ -98,7 +99,7 @@ namespace WebUI.Controllers
         {
             List<DrawingObject> newObjects = new List<DrawingObject>();
 
-            Drawing drawing = drawingRepository.ReadDrawing(drawingId);
+            DrawingDTO drawing = drawingRepository.ReadDrawing(drawingId);
 
             var drawingObjects = drawing.DrawingObjects;
 

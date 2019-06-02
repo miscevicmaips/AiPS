@@ -74,6 +74,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\AppUserDTO.cs" />
+    <Compile Include="DTO\DrawingDTO.cs" />
+    <Compile Include="DTO\DrawingObjectDTO.cs" />
     <Compile Include="Entities\AppRole.cs" />
     <Compile Include="Entities\AppUser.cs" />
     <Compile Include="Entities\Drawing.cs" />

@@ -7,6 +7,7 @@ using DAL.Abstract;
 using Domain.Entities;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.Identity;
+using Domain.DTO;
 
 namespace WebUI.Hubs
 {
@@ -30,7 +31,7 @@ namespace WebUI.Hubs
 
         public void UpdateElement(int x, int y, int elementId)
         {
-            DrawingObject elementToUpdate = drawingObjectRepository.ReadDrawingObject(elementId);
+            DrawingObjectDTO elementToUpdate = drawingObjectRepository.ReadDrawingObject(elementId);
 
             elementToUpdate.PositionLeft = x;
             elementToUpdate.PositionTop = y;
@@ -44,9 +45,9 @@ namespace WebUI.Hubs
         {
             int? elementId = null;
 
-            Drawing drawing = drawingRepository.ReadDrawing(containedDrawingId);
+            DrawingDTO drawing = drawingRepository.ReadDrawing(containedDrawingId);
 
-            DrawingObject newElement = new DrawingObject();
+            DrawingObjectDTO newElement = new DrawingObjectDTO();
 
             if (elementType == "bathElement")
             {
@@ -107,7 +108,11 @@ namespace WebUI.Hubs
 
             newElement.DrawingID = drawing.DrawingID;
 
-            drawingObjectRepository.CreateDrawingObject(newElement);
+            int newElementId = 0;
+
+            newElementId = drawingObjectRepository.CreateDrawingObject(newElement);
+
+            newElement.DrawingObjectID = newElementId;
 
             drawing.DrawingObjects.Add(newElement);
 
@@ -131,7 +136,7 @@ namespace WebUI.Hubs
                 // If queue is empty -> update drawing master id in database
                 if (rooms.ListOfRooms[drawingId].Count == 0)
                 {
-                    Drawing updateMasterDrawing = drawingRepository.ReadDrawing(drawingId);
+                    DrawingDTO updateMasterDrawing = drawingRepository.ReadDrawing(drawingId);
 
                     updateMasterDrawing.MasterID = userId;
 
@@ -164,7 +169,7 @@ namespace WebUI.Hubs
 
                     if (rooms.ListOfRooms[drawingId].Count != 0)
                     {
-                        Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
+                        DrawingDTO drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
 
                         drawingToUpdateMaster.MasterID = rooms.ListOfRooms[drawingId].ElementAt(0);
 
@@ -176,7 +181,7 @@ namespace WebUI.Hubs
                     }
                     else
                     {
-                        Drawing drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
+                        DrawingDTO drawingToUpdateMaster = drawingRepository.ReadDrawing(drawingId);
 
                         drawingToUpdateMaster.MasterID = null;
 

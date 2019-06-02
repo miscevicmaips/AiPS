@@ -6,36 +6,94 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using DAL.Abstract;
 using Domain.Entities;
+using Domain.DTO;
 
 namespace DAL.Concrete
 {
     public class DrawingObjectRepository : IDrawingObjectRepository
     {
-        public void CreateDrawingObject(DrawingObject drawingObject)
+        public int CreateDrawingObject(DrawingObjectDTO drawingObjectDTO)
         {
             using (var context = new HomeDrawDbContext())
             {
-                context.DrawingObjects.Add(drawingObject);
+                int returnedId = 0;
 
-                context.SaveChanges();
+                try
+                {
+                    DrawingObject newDrawingObject = new DrawingObject()
+                    {
+                        DrawingID = drawingObjectDTO.DrawingID,
+                        DrawingObjectType = drawingObjectDTO.DrawingObjectType,
+                        PositionLeft = drawingObjectDTO.PositionLeft,
+                        PositionTop = drawingObjectDTO.PositionTop
+                    };
+
+                    context.DrawingObjects.Add(newDrawingObject);
+
+                    context.SaveChanges();
+
+                    returnedId = newDrawingObject.DrawingObjectID;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                return returnedId;
+               
             }
         }
 
-        public DrawingObject ReadDrawingObject(int drawingObjectId)
+        public DrawingObjectDTO ReadDrawingObject(int drawingObjectId)
         {
             using (var context = new HomeDrawDbContext())
             {
-                return context.DrawingObjects.Find(drawingObjectId);
+                DrawingObjectDTO drawingObjectDTO = null;
+
+                try
+                {
+                    var foundDrawingObject = context.DrawingObjects.Find(drawingObjectId);
+
+                    drawingObjectDTO = new DrawingObjectDTO()
+                    {
+                        DrawingID = foundDrawingObject.DrawingID,
+                        DrawingObjectID = foundDrawingObject.DrawingObjectID,
+                        DrawingObjectType = foundDrawingObject.DrawingObjectType,
+                        PositionLeft = foundDrawingObject.PositionLeft,
+                        PositionTop = foundDrawingObject.PositionTop
+                    };
+                }
+
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                return drawingObjectDTO;
             }
         }
 
-        public void UpdateDrawingObject(DrawingObject drawingObject)
+        public void UpdateDrawingObject(DrawingObjectDTO drawingObjectDTO)
         {
             using (var context = new HomeDrawDbContext())
             {
-                context.Entry(drawingObject).State = EntityState.Modified;
+                try
+                {
+                    var foundDrawingObject = context.DrawingObjects.Where(d => d.DrawingObjectID == drawingObjectDTO.DrawingObjectID).FirstOrDefault();
 
-                context.SaveChanges();
+                    foundDrawingObject.DrawingID = drawingObjectDTO.DrawingID;
+                    foundDrawingObject.DrawingObjectID = drawingObjectDTO.DrawingObjectID;
+                    foundDrawingObject.DrawingObjectType = drawingObjectDTO.DrawingObjectType;
+                    foundDrawingObject.PositionLeft = drawingObjectDTO.PositionLeft;
+                    foundDrawingObject.PositionTop = drawingObjectDTO.PositionTop;
+
+                    context.SaveChanges();
+                }
+
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
@@ -51,11 +109,39 @@ namespace DAL.Concrete
             }
         }
 
-        public IEnumerable<DrawingObject> GetAllDrawingObjects()
+        public IEnumerable<DrawingObjectDTO> GetAllDrawingObjects()
         {
             using (var context = new HomeDrawDbContext())
             {
-                return context.DrawingObjects.ToList();
+                List<DrawingObjectDTO> foundDrawingObjectsDTO = new List<DrawingObjectDTO>();
+
+                try
+                {
+                    var foundDrawingObjects = context.DrawingObjects.ToList();
+
+                    foreach(var drawingObject in foundDrawingObjects)
+                    {
+                        DrawingObjectDTO newDrawingObjectDTO = null;
+
+                        newDrawingObjectDTO = new DrawingObjectDTO()
+                        {
+                            DrawingID = drawingObject.DrawingID,
+                            DrawingObjectID = drawingObject.DrawingObjectID,
+                            DrawingObjectType = drawingObject.DrawingObjectType,
+                            PositionLeft = drawingObject.PositionLeft,
+                            PositionTop = drawingObject.PositionTop
+                        };
+
+                        foundDrawingObjectsDTO.Add(newDrawingObjectDTO);
+                    }
+                }
+
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                return foundDrawingObjectsDTO;
             }
         }
         

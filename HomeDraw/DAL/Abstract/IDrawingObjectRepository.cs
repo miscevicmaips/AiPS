@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.DTO;
 
 namespace DAL.Abstract
 {
     public interface IDrawingObjectRepository
     {
-        void CreateDrawingObject(DrawingObject drawingObject);
-        DrawingObject ReadDrawingObject(int drawingObjectId);
-        void UpdateDrawingObject(DrawingObject drawingObject);
+        int CreateDrawingObject(DrawingObjectDTO drawingObject);
+        DrawingObjectDTO ReadDrawingObject(int drawingObjectId);
+        void UpdateDrawingObject(DrawingObjectDTO drawingObject);
         void DeleteDrawingObject(int drawingObjectId);
 
-        IEnumerable<DrawingObject> GetAllDrawingObjects();
+        IEnumerable<DrawingObjectDTO> GetAllDrawingObjects();
     }
 }
