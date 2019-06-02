@@ -18,11 +18,13 @@ namespace WebUI.Controllers
             drawingRepository = drawingRepo;
         }
 
+        [HttpGet]
         public ActionResult Dashboard()
         {
             return View();
         }
         
+        [HttpGet]
         public ActionResult PublicDrawings()
         {
             PublicDrawingsViewModel vm = new PublicDrawingsViewModel();
@@ -32,11 +34,13 @@ namespace WebUI.Controllers
             return View(vm);
         }
 
+        [HttpGet]
         public ActionResult SavedDrawings()
         {
             return View();
         }
 
+        [HttpGet]
         public ActionResult Settings()
         {
             return View();

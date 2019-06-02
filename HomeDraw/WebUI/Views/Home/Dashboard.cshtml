@@ -47,7 +47,7 @@
         <div class="fixed-bottom" id="dropdownJoinRoomGroup" style="display:none;">
             <div id="createNewDrawing">
                 <div class="card-body">
-                    @using (Html.BeginForm("JoinDrawing", "Drawing", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm("JoinDrawing", "Drawing", FormMethod.Get, new { enctype = "multipart/form-data" }))
                     {
                         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                         <div class="form-row align-items-center ml-5 mr-5 pl-5 pr-5">

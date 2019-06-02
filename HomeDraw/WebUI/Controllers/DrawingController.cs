@@ -30,6 +30,7 @@ namespace WebUI.Controllers
             userRepository = userRepo;
         }
 
+        [HttpPost]
         public ActionResult CreateDrawing(DashboardViewModel vm)
         {
             DrawingDTO newDrawing = new DrawingDTO();
@@ -46,6 +47,7 @@ namespace WebUI.Controllers
             return RedirectToAction("JoinDrawing", dashboardViewModel);
         }
 
+        [HttpGet]
         public ActionResult OpenDrawing(int drawingId, string drawingPassword)
         {
             DrawingDTO drawingToOpen = drawingRepository.ReadDrawing(drawingId);
@@ -57,6 +59,7 @@ namespace WebUI.Controllers
             return View("Drawing", vm);
         }
 
+        [HttpGet]
         public ActionResult JoinDrawing(DashboardViewModel dashboardViewModel)
         {
             DrawingDTO drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.joinDrawingName);
@@ -87,6 +90,7 @@ namespace WebUI.Controllers
 
         }
 
+        [HttpPost]
         public ActionResult DeleteDrawing(int drawingId)
         {
             drawingRepository.DeleteDrawing(drawingId);
