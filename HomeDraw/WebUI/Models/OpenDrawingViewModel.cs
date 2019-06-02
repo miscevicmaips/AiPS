@@ -10,7 +10,5 @@ namespace WebUI.Models
     public class OpenDrawingViewModel
     {
         public DrawingDTO Drawing { get; set; }
-
-        public string SavedDrawingName { get; set; }
     }
 }

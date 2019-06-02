@@ -25,16 +25,6 @@ namespace WebUI.Controllers
         }
         
         [HttpGet]
-        public ActionResult PublicDrawings()
-        {
-            PublicDrawingsViewModel vm = new PublicDrawingsViewModel();
-
-            vm.PublicDrawings = drawingRepository.GetAllDrawings();
-
-            return View(vm);
-        }
-
-        [HttpGet]
         public ActionResult SavedDrawings()
         {
             return View();

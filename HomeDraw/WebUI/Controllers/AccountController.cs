@@ -41,6 +41,40 @@ namespace WebUI.Controllers
         }
 
         [HttpGet]
+        public ActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RegisterAsync(RegistrationViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                AppUser user = new AppUser();
+
+                user.UserName = vm.Username;
+                user.FirstName = vm.FirstName;
+                user.LastName = vm.LastName;
+                user.Email = vm.EmailAddress;
+
+                IdentityResult result = await UserManager.CreateAsync(user, vm.Password);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("LogIn", "Account");
+                }
+
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+
+            return View("~/Views/Account/Registration.cshtml", vm);
+        }
+
+        [HttpGet]
         public ActionResult LogIn()
         {
             return View();
@@ -93,7 +127,7 @@ namespace WebUI.Controllers
                 }
             }
 
-            return View(vm);
+            return View("~/Views/Home/Settings.cshtml", vm);
         }
 
         public ActionResult LogOut()

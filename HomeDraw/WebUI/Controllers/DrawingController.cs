@@ -33,18 +33,23 @@ namespace WebUI.Controllers
         [HttpPost]
         public ActionResult CreateDrawing(DashboardViewModel vm)
         {
-            DrawingDTO newDrawing = new DrawingDTO();
+            if (ModelState.IsValid)
+            {
+                DrawingDTO newDrawing = new DrawingDTO();
 
-            newDrawing.Name = vm.createDrawingName;
-            newDrawing.Password = vm.createDrawingPassword;
+                newDrawing.Name = vm.DrawingName;
+                newDrawing.Password = vm.DrawingPassword;
 
-            drawingRepository.CreateDrawing(newDrawing);
+                drawingRepository.CreateDrawing(newDrawing);
 
-            DashboardViewModel dashboardViewModel = new DashboardViewModel();
-            dashboardViewModel.joinDrawingName = newDrawing.Name;
-            dashboardViewModel.joinDrawingPassword = newDrawing.Password;
+                DashboardViewModel dashboardViewModel = new DashboardViewModel();
+                dashboardViewModel.DrawingName = newDrawing.Name;
+                dashboardViewModel.DrawingName = newDrawing.Password;
 
-            return RedirectToAction("JoinDrawing", dashboardViewModel);
+                return RedirectToAction("JoinDrawing", dashboardViewModel);
+            }
+
+            return View("~/Views/Home/Dashboard.cshtml", vm);
         }
 
         [HttpGet]
@@ -62,31 +67,36 @@ namespace WebUI.Controllers
         [HttpGet]
         public ActionResult JoinDrawing(DashboardViewModel dashboardViewModel)
         {
-            DrawingDTO drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.joinDrawingName);
+            DrawingDTO drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.DrawingName);
 
-            if (drawingToJoin != null)
+            if (ModelState.IsValid)
             {
-                if (drawingToJoin.Password == dashboardViewModel.joinDrawingPassword)
+                if (drawingToJoin != null)
                 {
-                    OpenDrawingViewModel vm = new OpenDrawingViewModel();
-                    vm.Drawing = drawingToJoin;
-                    return View("Drawing", vm);
+                    if (drawingToJoin.Password == dashboardViewModel.DrawingPassword)
+                    {
+                        OpenDrawingViewModel vm = new OpenDrawingViewModel();
+                        vm.Drawing = drawingToJoin;
+                        return View("Drawing", vm);
 
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("RoomPasswordInvalid", "Wrong password!");
+
+                        return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("RoomPasswordInvalid", "Wrong password!");
+                    ModelState.AddModelError("RoomMissing", "Room with name " + "'" + dashboardViewModel.DrawingName + "'" + " doesn't exist!");
 
                     return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
+
                 }
             }
-            else
-            {
-                ModelState.AddModelError("RoomMissing", "Room with name " + "'" + dashboardViewModel.joinDrawingName + "'" + " doesn't exist!");
 
-                return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
-
-            }
+            return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
 
         }
 
@@ -95,7 +105,7 @@ namespace WebUI.Controllers
         {
             drawingRepository.DeleteDrawing(drawingId);
 
-            return RedirectToAction("PublicDrawings", "Home");
+            return RedirectToAction("Dashboard", "Home");
         }
 
         [HttpGet]

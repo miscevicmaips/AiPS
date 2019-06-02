@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,10 +8,11 @@ namespace WebUI.Models
 {
     public class DashboardViewModel
     {
-        public string createDrawingName { get; set; }
-        public string createDrawingPassword { get; set; }
+        [Required]
+        public string DrawingName { get; set; }
 
-        public string joinDrawingName { get; set; }
-        public string joinDrawingPassword { get; set; }
+        [Required]   
+        public string DrawingPassword { get; set; }
+
     }
 }

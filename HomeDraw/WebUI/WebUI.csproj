@@ -263,10 +263,9 @@
     <Compile Include="Infrastructure\AppUserManager.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
-    <Compile Include="Models\HtmToPDFViewModel.cs" />
     <Compile Include="Models\LogInViewModel.cs" />
     <Compile Include="Models\OpenDrawingViewModel.cs" />
-    <Compile Include="Models\PublicDrawingsViewModel.cs" />
+    <Compile Include="Models\RegistrationViewModel.cs" />
     <Compile Include="Models\SavedDrawingsViewModel.cs" />
     <Compile Include="Models\SettingsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -292,7 +291,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Home\PublicDrawings.cshtml" />
     <Content Include="Views\Home\SavedDrawings.cshtml" />
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Room\Room.cshtml" />
