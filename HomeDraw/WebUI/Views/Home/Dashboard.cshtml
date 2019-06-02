@@ -16,6 +16,8 @@
                     <button id="createNewRoomButton" class="btn btn-dark">Create New</button>
                     <button id="joinExistingRoomButton" class="btn btn-dark">Join Existing</button>
 
+                    @Html.ValidationSummary(false, "", new { @class = "validationSummary text-center mt-4" })
+
                 </div>
             </div>
         </div>
@@ -26,8 +28,6 @@
                 <div class="card-body">
                     @using (Html.BeginForm("CreateDrawing", "Drawing", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
-                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
                         <div class="form-row align-items-center ml-5 mr-5 pl-5 pr-5">
                             <div class="col-5">
                                 @Html.TextBoxFor(m => m.CreateDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", @id = "drawingNameInput", autocomplete = "off" })
@@ -51,7 +51,6 @@
                 <div class="card-body">
                     @using (Html.BeginForm("JoinDrawing", "Drawing", FormMethod.Get, new { enctype = "multipart/form-data" }))
                     {
-                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                         <div class="form-row align-items-center ml-5 mr-5 pl-5 pr-5">
                             <div class="col-5">
                                 @Html.TextBoxFor(m => m.JoinDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", @id = "drawingNameJoinInput", autocomplete = "off" })

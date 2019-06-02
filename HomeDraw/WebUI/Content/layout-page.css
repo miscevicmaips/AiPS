@@ -9,3 +9,13 @@ body {
 .layoutBodySize {
     height: 100%;
 }
+
+.validationSummary {
+    color: white;
+    list-style-type: none;
+}
+
+    .validationSummary ul {
+        list-style-type: unset;
+        padding: 0px 0px 0px 0px;
+    }

@@ -295,6 +295,7 @@
     <Content Include="Views\Home\Settings.cshtml" />
     <Content Include="Views\Room\Room.cshtml" />
     <Content Include="Views\Drawing\Drawing.cshtml" />
+    <Content Include="Views\Account\Registration.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

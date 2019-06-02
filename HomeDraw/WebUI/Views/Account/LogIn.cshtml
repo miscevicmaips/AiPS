@@ -9,6 +9,7 @@
 <html>
 <head>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery-ui.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
@@ -19,14 +20,21 @@
 </head>
 <body>
 
+    
+    <div class="position-absolute" style="top:15px; right:30px;">
+        @Html.ActionLink(" ", "Registration", "Account", null, new { @class = " btn btn-dark fas fa-user-plus" })
+
+    </div>
+
     <div class="container-fluid h-100 p-0 m-0">
         <div class="row  h-100 p-0 m-0 align-items-center justify-content-center">
             <div id="signInMenu" class="col-md-4 p-0 m-0 justify-content-center text-center">
                 <h4 class="text-white"> Sign in to Home Draw</h4>
+                @Html.ValidationSummary(false, "", new { @class = "validationSummary" })
 
                 @using (Html.BeginForm("LogIn", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @id = "loginForm" }))
                 {
-                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
                     <div id="usernameGroup" class="input-group mt-2 mb-3 position-absolute">
                         @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Username", @id = "usernameInput" })
                         <div class="input-group-append">
@@ -35,12 +43,13 @@
                     </div>
                     <div id="passwordGroup" class="input-group mt-2 mb-3 position-absolute">
                         @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "passwordInput", @type = "password" })
-
                         <div class="input-group-append">
                             <button id="loginButton" class="btn btn-dark" type="submit"><i class="fas fa-sign-in-alt"></i></button>
                         </div>
                     </div>
+
                 }
+
                 <script>
                     $(document).ready(function () {
                         $("#passwordGroup").hide();
@@ -51,6 +60,7 @@
                             $("#passwordGroup").show("slow");
                             $("#passwordInput").focus();
                         });
+
                     });
 
                     $("#usernameInput").keypress(function (e) {
