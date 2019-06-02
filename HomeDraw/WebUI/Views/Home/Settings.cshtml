@@ -15,6 +15,7 @@
                     <div>
                         @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @id = "loginForm" }))
                         {
+                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                             <div id="oldPasswordGroup" class="input-group mt-2 mb-3 position-absolute">
                                 @Html.TextBoxFor(m => m.OldPassword, new { @class = "form-control", @placeholder = "Old Password", @id = "oldPasswordInput", @type = "password" })
                                 <div class="input-group-append">

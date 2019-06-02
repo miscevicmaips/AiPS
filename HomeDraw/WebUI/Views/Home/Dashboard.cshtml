@@ -26,13 +26,15 @@
                 <div class="card-body">
                     @using (Html.BeginForm("CreateDrawing", "Drawing", FormMethod.Post, new { enctype = "multipart/form-data" }))
                     {
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
                         <div class="form-row align-items-center ml-5 mr-5 pl-5 pr-5">
                             <div class="col-5">
-                                @Html.TextBoxFor(m => m.DrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", @id = "drawingNameInput", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.CreateDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", @id = "drawingNameInput", autocomplete = "off" })
                             </div>
 
                             <div class="col-5">
-                                @Html.PasswordFor(m => m.DrawingPassword, new { @class = "form-control", @placeholder = "Enter password", @id = "drawingPasswordInput", autocomplete = "off" })
+                                @Html.PasswordFor(m => m.CreateDrawingPassword, new { @class = "form-control", @placeholder = "Enter password", @id = "drawingPasswordInput", autocomplete = "off" })
                             </div>
 
                             <div class="col-2">
@@ -52,11 +54,11 @@
                         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                         <div class="form-row align-items-center ml-5 mr-5 pl-5 pr-5">
                             <div class="col-5">
-                                @Html.TextBoxFor(m => m.DrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", @id = "drawingNameJoinInput", autocomplete = "off" })
+                                @Html.TextBoxFor(m => m.JoinDrawingName, new { @class = "form-control", @placeholder = "Enter drawing name", @id = "drawingNameJoinInput", autocomplete = "off" })
                             </div>
 
                             <div class="col-5">
-                                @Html.PasswordFor(m => m.DrawingPassword, new { @class = "form-control", @placeholder = "Enter password", @id = "drawingPasswordJoinInput", autocomplete = "off" })
+                                @Html.PasswordFor(m => m.JoinDrawingPassword, new { @class = "form-control", @placeholder = "Enter password", @id = "drawingPasswordJoinInput", autocomplete = "off" })
                             </div>
 
                             <div class="col-2">

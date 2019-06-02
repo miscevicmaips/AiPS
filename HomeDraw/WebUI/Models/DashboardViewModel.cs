@@ -8,11 +8,13 @@ namespace WebUI.Models
 {
     public class DashboardViewModel
     {
-        [Required]
-        public string DrawingName { get; set; }
+        public string CreateDrawingName { get; set; }
 
-        [Required]   
-        public string DrawingPassword { get; set; }
+        public string CreateDrawingPassword { get; set; }
+
+        public string JoinDrawingName { get; set; }
+
+        public string JoinDrawingPassword { get; set; }
 
     }
 }

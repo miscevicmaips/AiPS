@@ -33,23 +33,28 @@ namespace WebUI.Controllers
         [HttpPost]
         public ActionResult CreateDrawing(DashboardViewModel vm)
         {
-            if (ModelState.IsValid)
+            if (vm.CreateDrawingName != null && vm.CreateDrawingPassword != null)
             {
                 DrawingDTO newDrawing = new DrawingDTO();
 
-                newDrawing.Name = vm.DrawingName;
-                newDrawing.Password = vm.DrawingPassword;
+                newDrawing.Name = vm.CreateDrawingName;
+                newDrawing.Password = vm.CreateDrawingPassword;
 
                 drawingRepository.CreateDrawing(newDrawing);
 
-                DashboardViewModel dashboardViewModel = new DashboardViewModel();
-                dashboardViewModel.DrawingName = newDrawing.Name;
-                dashboardViewModel.DrawingName = newDrawing.Password;
+                vm.JoinDrawingName = newDrawing.Name;
+                vm.JoinDrawingPassword = newDrawing.Password;
 
-                return RedirectToAction("JoinDrawing", dashboardViewModel);
+                return RedirectToAction("JoinDrawing", vm);
             }
 
-            return View("~/Views/Home/Dashboard.cshtml", vm);
+            else
+            {
+                ModelState.AddModelError("MissingParameters", "Please enter the room name and password,");
+
+                return View("~/Views/Home/Dashboard.cshtml", vm);
+            }
+
         }
 
         [HttpGet]
@@ -67,37 +72,35 @@ namespace WebUI.Controllers
         [HttpGet]
         public ActionResult JoinDrawing(DashboardViewModel dashboardViewModel)
         {
-            DrawingDTO drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.DrawingName);
-
-            if (ModelState.IsValid)
+            if(dashboardViewModel.JoinDrawingName != null && dashboardViewModel.JoinDrawingPassword != null)
             {
+                DrawingDTO drawingToJoin = drawingRepository.ReadDrawingByName(dashboardViewModel.JoinDrawingName);
+
                 if (drawingToJoin != null)
                 {
-                    if (drawingToJoin.Password == dashboardViewModel.DrawingPassword)
+                    if (drawingToJoin.Password == dashboardViewModel.JoinDrawingPassword)
                     {
                         OpenDrawingViewModel vm = new OpenDrawingViewModel();
                         vm.Drawing = drawingToJoin;
                         return View("Drawing", vm);
-
                     }
                     else
                     {
                         ModelState.AddModelError("RoomPasswordInvalid", "Wrong password!");
-
                         return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("RoomMissing", "Room with name " + "'" + dashboardViewModel.DrawingName + "'" + " doesn't exist!");
-
+                    ModelState.AddModelError("RoomMissing", "Room with name " + "'" + dashboardViewModel.JoinDrawingName + "'" + " doesn't exist!");
                     return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
-
                 }
             }
-
-            return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
-
+            else
+            {
+                ModelState.AddModelError("MissingParameters", "Please enter the room name and password,");
+                return View("~/Views/Home/Dashboard.cshtml", dashboardViewModel);
+            }
         }
 
         [HttpPost]

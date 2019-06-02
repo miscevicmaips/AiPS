@@ -26,13 +26,13 @@
 
                 @using (Html.BeginForm("LogIn", "Account", FormMethod.Post, new { enctype = "multipart/form-data", @id = "loginForm" }))
                 {
+                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                     <div id="usernameGroup" class="input-group mt-2 mb-3 position-absolute">
                         @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Username", @id = "usernameInput" })
                         <div class="input-group-append">
                             <button id="nextButton" class="btn btn-dark" type="button"><i class="fas fa-sign-in-alt"></i></button>
                         </div>
                     </div>
-
                     <div id="passwordGroup" class="input-group mt-2 mb-3 position-absolute">
                         @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "passwordInput", @type = "password" })
 
